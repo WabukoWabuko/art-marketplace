@@ -1,0 +1,81 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE_BACKEND = 'art-marketplace-backend'
+        DOCKER_IMAGE_FRONTEND = 'art-marketplace-frontend'
+        DOCKER_TAG = "${env.BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build Backend') {
+            steps {
+                dir('backend') {
+                    sh 'docker build -t ${DOCKER_IMAGE_BACKEND}:${DOCKER_TAG} .'
+                    sh 'docker build -t ${DOCKER_IMAGE_BACKEND}:latest .'
+                }
+            }
+        }
+
+        stage('Build Frontend') {
+            steps {
+                dir('frontend') {
+                    sh 'docker build -t ${DOCKER_IMAGE_FRONTEND}:${DOCKER_TAG} .'
+                    sh 'docker build -t ${DOCKER_IMAGE_FRONTEND}:latest .'
+                }
+            }
+        }
+
+        stage('Test Backend') {
+            steps {
+                dir('backend') {
+                    sh 'docker run --rm ${DOCKER_IMAGE_BACKEND}:${DOCKER_TAG} python manage.py test'
+                }
+            }
+        }
+
+        stage('Test Frontend') {
+            steps {
+                dir('frontend') {
+                    sh 'docker run --rm ${DOCKER_IMAGE_FRONTEND}:${DOCKER_TAG} npm test'
+                }
+            }
+        }
+
+        stage('Deploy to Staging') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                sh 'docker-compose -f docker-compose.yml up -d --build'
+            }
+        }
+
+        stage('Deploy to Production') {
+            when {
+                branch 'main'
+            }
+            steps {
+                sh 'docker-compose -f docker-compose.prod.yml up -d --build'
+            }
+        }
+    }
+
+    post {
+        always {
+            sh 'docker system prune -f'
+        }
+        success {
+            echo 'Pipeline succeeded!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
