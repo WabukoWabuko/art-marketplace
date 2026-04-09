@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import ArtworkCard from '../../components/ArtworkCard'
 import CurrencySelector from '../../components/CurrencySelector'
 import { api } from '../../lib/api'
@@ -12,11 +12,7 @@ export default function Marketplace() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')
 
-  useEffect(() => {
-    loadArtworks()
-  }, [searchTerm, selectedCategory])
-
-  const loadArtworks = async () => {
+  const loadArtworks = useCallback(async () => {
     try {
       setLoading(true)
       setError(null)
@@ -31,7 +27,11 @@ export default function Marketplace() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [searchTerm, selectedCategory])
+
+  useEffect(() => {
+    loadArtworks()
+  }, [loadArtworks])
 
   const categories = ['Painting', 'Sculpture', 'Digital Art', 'Photography', 'Mixed Media', 'Street Art', 'Graffiti', 'Urban Art']
 

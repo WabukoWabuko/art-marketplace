@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function AdminDashboard() {
@@ -13,19 +13,7 @@ export default function AdminDashboard() {
   })
   const router = useRouter()
 
-  useEffect(() => {
-    const token = localStorage.getItem('access_token')
-    if (!token) {
-      router.push('/login')
-      return
-    }
-
-    // Fetch user profile and stats
-    fetchUserProfile(token)
-    fetchStats(token)
-  }, [router])
-
-  const fetchUserProfile = async (token) => {
+  const fetchUserProfile = useCallback(async (token) => {
     try {
       const response = await fetch('http://localhost:8000/api/users/profile/', {
         headers: {
@@ -46,12 +34,10 @@ export default function AdminDashboard() {
       console.error('Error fetching user profile:', error)
       router.push('/login')
     }
-  }
+  }, [router])
 
-  const fetchStats = async (token) => {
+  const fetchStats = useCallback(async () => {
     try {
-      // These endpoints would need to be created in the backend
-      // For now, we'll use placeholder data
       setStats({
         totalUsers: 1250,
         totalArtworks: 450,
@@ -61,6 +47,23 @@ export default function AdminDashboard() {
     } catch (error) {
       console.error('Error fetching stats:', error)
     }
+  }, [])
+
+  useEffect(() => {
+    const token = localStorage.getItem('access_token')
+    if (!token) {
+      router.push('/login')
+      return
+    }
+
+    fetchUserProfile(token)
+    fetchStats()
+  }, [fetchUserProfile, fetchStats, router])
+
+  const handleLogout = () => {
+    localStorage.removeItem('access_token')
+    localStorage.removeItem('refresh_token')
+    router.push('/')
   }
 
   if (!user) {
@@ -82,7 +85,6 @@ export default function AdminDashboard() {
           <p className="text-gray-600 mt-2">Welcome back, {user.first_name}!</p>
         </div>
 
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center">
@@ -141,7 +143,6 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Quick Actions */}
         <div className="bg-white rounded-lg shadow p-6 mb-8">
           <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -183,7 +184,6 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Recent Activity */}
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-xl font-bold text-gray-900 mb-4">Recent Activity</h2>
           <div className="space-y-4">
