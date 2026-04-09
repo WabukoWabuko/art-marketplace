@@ -1,11 +1,18 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { CurrencyContext } from '../lib/currencyContext'
 
 export default function ArtworkCard({ artwork }) {
   const [isHovered, setIsHovered] = useState(false)
+  const { currency, convertPrice } = useContext(CurrencyContext)
   const imageSrc = artwork.image || '/placeholder.jpg'
+
+  const handlePurchase = async (artwork) => {
+    // For now, just show an alert. In a real app, this would open a payment modal
+    alert(`Purchase functionality for ${artwork.title} will be implemented with M-Pesa and Pesapal integration.`)
+  }
 
   return (
     <div
@@ -40,7 +47,7 @@ export default function ArtworkCard({ artwork }) {
           </div>
         ) : (
           <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-lg">
-            <span className="font-bold text-gray-900">{artwork.currency} {artwork.price}</span>
+            <span className="font-bold text-gray-900">{currency} {convertPrice ? convertPrice(artwork.price, 'USD', currency) : artwork.price}</span>
           </div>
         )}
 
@@ -86,6 +93,15 @@ export default function ArtworkCard({ artwork }) {
           >
             View Details
           </Link>
+
+          {artwork.status !== 'sold' && (
+            <button
+              onClick={() => handlePurchase(artwork)}
+              className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition-colors duration-200"
+            >
+              Buy Now
+            </button>
+          )}
 
           <button className="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200 group">
             <svg className="w-5 h-5 text-gray-400 group-hover:text-red-500 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -6,6 +6,8 @@ class Payment(models.Model):
         ('stripe', 'Stripe'),
         ('paypal', 'PayPal'),
         ('bank', 'Bank Transfer'),
+        ('mpesa', 'M-Pesa (Daraja)'),
+        ('pesapal', 'Pesapal'),
     ]
 
     STATUS_CHOICES = [

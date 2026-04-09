@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'cloudinary_storage',
     'cloudinary',
+    'django_daraja',
     # Local apps
     'users',
     'artworks',
@@ -174,3 +175,17 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Daraja (M-Pesa) settings
+MPESA_ENVIRONMENT = 'sandbox'  # Change to 'production' for live
+MPESA_CONSUMER_KEY = os.getenv('MPESA_CONSUMER_KEY', 'your_consumer_key')
+MPESA_CONSUMER_SECRET = os.getenv('MPESA_CONSUMER_SECRET', 'your_consumer_secret')
+MPESA_SHORTCODE = os.getenv('MPESA_SHORTCODE', '174379')
+MPESA_PASSKEY = os.getenv('MPESA_PASSKEY', 'your_passkey')
+MPESA_INITIATOR_NAME = os.getenv('MPESA_INITIATOR_NAME', 'testapi')
+MPESA_INITIATOR_PASSWORD = os.getenv('MPESA_INITIATOR_PASSWORD', 'Safaricom123!')
+
+# Pesapal settings
+PESAPAL_CONSUMER_KEY = os.getenv('PESAPAL_CONSUMER_KEY', 'your_pesapal_consumer_key')
+PESAPAL_CONSUMER_SECRET = os.getenv('PESAPAL_CONSUMER_SECRET', 'your_pesapal_consumer_secret')
+PESAPAL_ENVIRONMENT = 'sandbox'  # Change to 'live' for production
