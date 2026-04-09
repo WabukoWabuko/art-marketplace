@@ -1,3 +1,4 @@
 from django.contrib import admin
 
-# Register your models here.
+# Profiles are stored on the custom user model.
+# No additional admin registration is needed here.

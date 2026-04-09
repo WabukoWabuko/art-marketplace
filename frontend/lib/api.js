@@ -49,6 +49,9 @@ export const api = {
   getPayments: () => apiRequest('/payments/'),
   convertCurrency: (params) => apiRequest(`/payments/convert/?${new URLSearchParams(params)}`),
 
+  // Profiles
+  getProfile: (username) => apiRequest(`/profiles/${username}/`),
+
   // Reviews
   getReviews: (artworkId) => apiRequest(`/reviews/artwork/${artworkId}/`),
   createReview: (data) => apiRequest('/reviews/', { method: 'POST', body: JSON.stringify(data) }),
