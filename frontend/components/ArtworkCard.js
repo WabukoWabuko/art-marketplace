@@ -33,15 +33,28 @@ export default function ArtworkCard({ artwork }) {
           </div>
         </div>
 
-        {/* Price Badge */}
-        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-lg">
-          <span className="font-bold text-gray-900">{artwork.currency} {artwork.price}</span>
-        </div>
+        {/* Price Badge or Sold Badge */}
+        {artwork.status === 'sold' ? (
+          <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">
+            Sold
+          </div>
+        ) : (
+          <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-lg">
+            <span className="font-bold text-gray-900">{artwork.currency} {artwork.price}</span>
+          </div>
+        )}
 
         {/* Limited Edition Badge */}
         {artwork.is_limited && (
           <div className="absolute top-4 left-4 bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">
             Limited Edition
+          </div>
+        )}
+
+        {/* Age Badge */}
+        {artwork.created_date && (
+          <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-xs font-medium">
+            {new Date(artwork.created_date).toLocaleDateString()}
           </div>
         )}
       </div>
