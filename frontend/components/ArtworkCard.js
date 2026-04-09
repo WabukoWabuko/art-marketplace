@@ -72,13 +72,20 @@ export default function ArtworkCard({ artwork }) {
           {artwork.title}
         </h3>
 
-        <div className="flex items-center mb-3">
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-3">
-            <span className="text-white text-sm font-bold">
-              {artwork.artist_name?.charAt(0)?.toUpperCase() || 'A'}
-            </span>
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center">
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-3">
+              <span className="text-white text-sm font-bold">
+                {artwork.artist_name?.charAt(0)?.toUpperCase() || 'A'}
+              </span>
+            </div>
+            <span className="text-gray-600 font-medium">By {artwork.artist_name}</span>
           </div>
-          <span className="text-gray-600 font-medium">By {artwork.artist_name}</span>
+          {artwork.category && (
+            <span className="text-xs font-semibold uppercase tracking-wide bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">
+              {artwork.category}
+            </span>
+          )}
         </div>
 
         <p className="text-gray-600 text-sm line-clamp-2 mb-4">

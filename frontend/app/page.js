@@ -27,10 +27,24 @@ export default function Home() {
       description: "Contemporary urban landscape capturing city life",
       is_limited: false,
       status: "sold",
+      category: "Street Art",
       created_date: "2023-11-20"
     },
     {
       id: 3,
+      title: "Graffiti Bloom",
+      artist_name: "Lena Sparks",
+      price: "1750.00",
+      currency: "USD",
+      image: "/placeholder.jpg",
+      description: "A bold graffiti mural celebrating life, color, and rhythm",
+      is_limited: true,
+      status: "available",
+      category: "Graffiti",
+      created_date: "2024-02-10"
+    },
+    {
+      id: 4,
       title: "Nature's Whisper",
       artist_name: "Anna Green",
       price: "2100.00",
@@ -39,6 +53,7 @@ export default function Home() {
       description: "Serene landscape painting of natural beauty",
       is_limited: true,
       status: "available",
+      category: "Painting",
       created_date: "2024-02-10"
     },
     {
@@ -64,10 +79,10 @@ export default function Home() {
         <div className="relative container mx-auto px-6 py-24 lg:py-32">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
-              Discover Extraordinary Art
+              Discover Graffiti, Street Art & Fine Art
             </h1>
             <p className="text-xl lg:text-2xl mb-8 text-blue-100 leading-relaxed">
-              Connect with talented artists worldwide and find your next masterpiece in our premium digital art marketplace
+              Explore bold mural work, urban graffiti, and contemporary art from artists pushing the boundaries of modern creativity.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
@@ -120,6 +135,67 @@ export default function Home() {
             >
               View All Artworks →
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="grid gap-12 lg:grid-cols-2 items-center">
+            <div>
+              <p className="text-sm uppercase tracking-[0.3em] text-blue-600 font-semibold mb-4">Graffiti & Street Art</p>
+              <h2 className="text-4xl font-bold text-gray-900 mb-6">Fuel the Urban Art Movement</h2>
+              <p className="text-lg text-gray-600 mb-6">
+                Explore street art collections, mural artists, and graffiti legends shaping cities with bold color and culture.
+              </p>
+              <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <div className="mt-1 h-3 w-3 rounded-full bg-blue-600"></div>
+                  <p className="text-gray-600">Curated graffiti pieces from rising and established muralists.</p>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="mt-1 h-3 w-3 rounded-full bg-blue-600"></div>
+                  <p className="text-gray-600">Tools, tutorials, and street art events for creatives.</p>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="mt-1 h-3 w-3 rounded-full bg-blue-600"></div>
+                  <p className="text-gray-600">Support artists with secure checkout and global exposure.</p>
+                </div>
+              </div>
+              <div className="mt-8 flex flex-col sm:flex-row gap-4">
+                <Link
+                  href="/marketplace"
+                  className="inline-flex items-center justify-center bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-700 transition-all duration-300"
+                >
+                  Browse Graffiti Art
+                </Link>
+                <Link
+                  href="/graffiti"
+                  className="inline-flex items-center justify-center border border-blue-600 text-blue-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-50 transition-all duration-300"
+                >
+                  Street Art Stories
+                </Link>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="rounded-3xl bg-gradient-to-br from-pink-500 to-fuchsia-500 p-6 text-white shadow-xl">
+                <h3 className="text-2xl font-bold mb-3">Mural Culture</h3>
+                <p className="text-sm opacity-90">Dive into the artists reshaping city walls with unforgettable murals.</p>
+              </div>
+              <div className="rounded-3xl bg-gradient-to-br from-slate-900 to-indigo-900 p-6 text-white shadow-xl">
+                <h3 className="text-2xl font-bold mb-3">Urban Collections</h3>
+                <p className="text-sm opacity-90">Collect limited graffiti editions and original urban artworks.</p>
+              </div>
+              <div className="rounded-3xl bg-gradient-to-br from-amber-400 to-orange-500 p-6 text-slate-900 shadow-xl">
+                <h3 className="text-2xl font-bold mb-3">Artist Spotlights</h3>
+                <p className="text-sm opacity-90">Discover emerging street artists from every corner of the globe.</p>
+              </div>
+              <div className="rounded-3xl bg-gradient-to-br from-emerald-500 to-teal-500 p-6 text-white shadow-xl">
+                <h3 className="text-2xl font-bold mb-3">Live Events</h3>
+                <p className="text-sm opacity-90">Find pop-up exhibitions, street art tours, and graffiti festivals.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

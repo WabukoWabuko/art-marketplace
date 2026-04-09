@@ -82,6 +82,12 @@ export default function Header() {
               </Link>
             </li>
             <li>
+              <Link href="/graffiti" className="relative text-gray-700 hover:text-blue-600 transition-colors font-medium group">
+                Graffiti
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-200"></span>
+              </Link>
+            </li>
+            <li>
               <Link href="/tutorials" className="relative text-gray-700 hover:text-blue-600 transition-colors font-medium group">
                 Tutorials
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-200"></span>
@@ -202,6 +208,11 @@ export default function Header() {
               <li>
                 <Link href="/events" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium">
                   Events
+                </Link>
+              </li>
+              <li>
+                <Link href="/graffiti" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                  Graffiti
                 </Link>
               </li>
               <li>

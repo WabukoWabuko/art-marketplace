@@ -33,7 +33,7 @@ export default function Marketplace() {
     }
   }
 
-  const categories = ['Painting', 'Sculpture', 'Digital Art', 'Photography', 'Mixed Media']
+  const categories = ['Painting', 'Sculpture', 'Digital Art', 'Photography', 'Mixed Media', 'Street Art', 'Graffiti', 'Urban Art']
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -76,7 +76,7 @@ export default function Marketplace() {
               >
                 <option value="">All Categories</option>
                 {categories.map(category => (
-                  <option key={category} value={category.toLowerCase()}>{category}</option>
+                  <option key={category} value={category}>{category}</option>
                 ))}
               </select>
             </div>
