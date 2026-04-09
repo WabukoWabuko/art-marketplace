@@ -12,11 +12,14 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+    user_type = serializers.ChoiceField(choices=['buyer', 'artist'], write_only=True)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', 'first_name', 'last_name', 'is_artist']
+        fields = ['username', 'email', 'password', 'first_name', 'last_name', 'user_type']
 
     def create(self, validated_data):
+        user_type = validated_data.pop('user_type')
+        validated_data['is_artist'] = user_type == 'artist'
         user = User.objects.create_user(**validated_data)
         return user
