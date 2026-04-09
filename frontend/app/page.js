@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import ArtworkCard from '../components/ArtworkCard'
 import CurrencySelector from '../components/CurrencySelector'
-import Header from '../components/Header'
 
 export default function Home() {
   // Mock data for featured artworks
@@ -58,7 +57,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800 text-white">
