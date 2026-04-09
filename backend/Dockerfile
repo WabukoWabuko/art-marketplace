@@ -10,10 +10,9 @@ RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
 COPY backend/ .
-COPY docker/ docker/
 
-RUN chmod +x docker/entrypoint.sh
+RUN mkdir -p /app/staticfiles
 
 EXPOSE 8000
 
-ENTRYPOINT ["/app/docker/entrypoint.sh"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
