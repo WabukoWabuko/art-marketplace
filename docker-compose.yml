@@ -1,29 +1,11 @@
-version: '3.8'
-
 services:
-  db:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: art_marketplace
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-
   backend:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
     environment:
       DEBUG: 1
       SECRET_KEY: django-insecure-dev-key-change-in-production
-      DB_NAME: art_marketplace
-      DB_USER: postgres
-      DB_PASSWORD: password
-      DB_HOST: db
-      DB_PORT: 5432
       CLOUDINARY_CLOUD_NAME: your_cloud_name
       CLOUDINARY_API_KEY: your_api_key
       CLOUDINARY_API_SECRET: your_api_secret
@@ -31,8 +13,6 @@ services:
       - ./backend:/app
     ports:
       - "8000:8000"
-    depends_on:
-      - db
     command: python manage.py runserver 0.0.0.0:8000
 
   frontend:
@@ -45,7 +25,6 @@ services:
       - ./frontend:/app
       - /app/node_modules
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8000/api
-
-volumes:
-  postgres_data:
+      NEXT_PUBLIC_API_URL: http://backend:8000/api
+    depends_on:
+      - backend

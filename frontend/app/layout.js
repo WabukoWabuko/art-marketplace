@@ -1,6 +1,6 @@
 import './globals.css'
-import { CurrencyProvider } from '../lib/currencyContext'
-import CurrencySelector from '../components/CurrencySelector'
+import { Providers } from '../components/Providers'
+import Header from '../components/Header'
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -14,67 +14,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.className}>
       <body className="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
-        <CurrencyProvider>
-          {/* Modern Header with Glass Effect */}
-          <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/50 shadow-sm">
-            <nav className="container mx-auto px-6 py-4">
-              <div className="flex justify-between items-center">
-                {/* Logo */}
-                <div className="flex items-center space-x-2">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-                    <span className="text-white font-bold text-xl">A</span>
-                  </div>
-                  <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    ArtMarket
-                  </span>
-                </div>
-
-                {/* Navigation */}
-                <ul className="hidden md:flex space-x-8 items-center">
-                  <li>
-                    <a href="/" className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 relative group">
-                      Home
-                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-200"></span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/marketplace" className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 relative group">
-                      Marketplace
-                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-200"></span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/events" className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 relative group">
-                      Events
-                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-200"></span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/tutorials" className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 relative group">
-                      Tutorials
-                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-200"></span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 relative group">
-                      Dashboard
-                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-200"></span>
-                    </a>
-                  </li>
-                  <li className="ml-4">
-                    <CurrencySelector />
-                  </li>
-                </ul>
-
-                {/* Mobile Menu Button */}
-                <button className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                </button>
-              </div>
-            </nav>
-          </header>
+        <Providers>
+          <Header />
 
           {/* Main Content */}
           <main className="flex-1">
@@ -140,7 +81,7 @@ export default function RootLayout({ children }) {
               </div>
             </div>
           </footer>
-        </CurrencyProvider>
+        </Providers>
       </body>
     </html>
   )

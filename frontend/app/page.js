@@ -43,7 +43,7 @@ export default function Home() {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Choose ArtMarket?</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              We're more than just a marketplace – we're a community of artists, collectors, and art enthusiasts
+              We&apos;re more than just a marketplace – we&apos;re a community of artists, collectors, and art enthusiasts
             </p>
           </div>
 
