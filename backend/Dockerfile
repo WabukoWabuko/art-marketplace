@@ -11,8 +11,11 @@ RUN pip install --upgrade pip && \
 
 COPY backend/ .
 
+COPY docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 RUN mkdir -p /app/staticfiles
 
 EXPOSE 8000
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT ["/entrypoint.sh"]
