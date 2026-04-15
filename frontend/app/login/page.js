@@ -26,7 +26,7 @@ export default function Login() {
     setError('')
 
     try {
-      const response = await fetch('http://localhost:8000/api/token/', {
+      const response = await fetch('http://localhost:8000/api/users/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ export default function Login() {
         router.push('/')
       } else {
         const errorData = await response.json()
-        setError(errorData.detail || 'Login failed')
+        setError(errorData.error || 'Login failed')
       }
     } catch (error) {
       setError('Network error. Please try again.')
@@ -54,7 +54,8 @@ export default function Login() {
   }
 
   const handleSocialLogin = (provider) => {
-    window.location.href = `http://localhost:8000/auth/login/${provider}/`
+    // Social login removed - use email/password login instead
+    console.log('Social login via', provider, '- use email/password instead')
   }
 
   return (
