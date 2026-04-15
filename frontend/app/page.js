@@ -1,353 +1,297 @@
+'use client'
+
 import Link from 'next/link'
-import ArtworkCard from '../components/ArtworkCard'
-import CurrencySelector from '../components/CurrencySelector'
+import { useState } from 'react'
+import EventCounter from '../components/EventCounter'
 
 export default function Home() {
-  // Mock data for featured artworks
-  const featuredArtworks = [
+  const [upcomingEvents] = useState([
     {
       id: 1,
-      title: "Abstract Dreams",
-      artist_name: "Maria Silva",
-      price: "1250.00",
-      currency: "USD",
-      image: "/placeholder.jpg",
-      description: "A vibrant abstract piece exploring the depths of imagination",
-      is_limited: true,
-      status: "available",
-      created_date: "2024-01-15"
+      title: "Spring Art Expo 2026",
+      date: "2026-05-15T18:00:00Z",
+      description: "Join us for the largest art exhibition of the season featuring works from 100+ artists.",
+      location: "Central Art Gallery, Downtown",
+      image: "/placeholder.jpg"
     },
     {
       id: 2,
-      title: "Urban Reflections",
-      artist_name: "John Doe",
-      price: "890.00",
-      currency: "USD",
-      image: "/placeholder.jpg",
-      description: "Contemporary urban landscape capturing city life",
-      is_limited: false,
-      status: "sold",
-      category: "Street Art",
-      created_date: "2023-11-20"
+      title: "Artist Masterclass Series",
+      date: "2026-06-01T14:00:00Z",
+      description: "Learn advanced techniques from internationally renowned artists in multiple disciplines.",
+      location: "Online & In-Person Venues",
+      image: "/placeholder.jpg"
     },
     {
       id: 3,
-      title: "Graffiti Bloom",
-      artist_name: "Lena Sparks",
-      price: "1750.00",
-      currency: "USD",
-      image: "/placeholder.jpg",
-      description: "A bold graffiti mural celebrating life, color, and rhythm",
-      is_limited: true,
-      status: "available",
-      category: "Graffiti",
-      created_date: "2024-02-10"
-    },
-    {
-      id: 4,
-      title: "Nature's Whisper",
-      artist_name: "Anna Green",
-      price: "2100.00",
-      currency: "USD",
-      image: "/placeholder.jpg",
-      description: "Serene landscape painting of natural beauty",
-      is_limited: true,
-      status: "available",
-      category: "Painting",
-      created_date: "2024-02-10"
-    },
-    {
-      id: 4,
-      title: "Digital Age",
-      artist_name: "Tech Artist",
-      price: "750.00",
-      currency: "USD",
-      image: "/placeholder.jpg",
-      description: "Digital artwork representing the modern era",
-      is_limited: false,
-      status: "available",
-      created_date: "2024-03-05"
+      title: "Graffiti Street Festival",
+      date: "2026-07-20T10:00:00Z",
+      description: "Celebrate urban art culture with live demonstrations, workshops, and competitions.",
+      location: "Downtown Arts District",
+      image: "/placeholder.jpg"
     }
+  ])
+
+  const featuredArtworks = [
+    { id: 1, title: "Abstract Dreams", artist_name: "Maria Silva", price: "1250.00", is_limited: true },
+    { id: 2, title: "Urban Reflections", artist_name: "John Doe", price: "890.00", is_limited: false },
+    { id: 3, title: "Graffiti Bloom", artist_name: "Lena Sparks", price: "1750.00", is_limited: true },
+    { id: 4, title: "Nature's Whisper", artist_name: "Anna Green", price: "2100.00", is_limited: true }
+  ]
+
+  const featuredArtists = [
+    { id: 1, name: "Maria Silva", specialty: "Abstract Art", followers: 2400, artworks: 45 },
+    { id: 2, name: "John Doe", specialty: "Street Art", followers: 1800, artworks: 32 },
+    { id: 3, name: "Lena Sparks", specialty: "Graffiti", followers: 3200, artworks: 58 }
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
-
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800 text-white">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative container mx-auto px-6 py-24 lg:py-32">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
-              Discover Graffiti, Street Art & Fine Art
+      <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 min-h-[600px] flex items-center">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="container mx-auto px-6 py-20 relative z-10">
+          <div className="max-w-2xl">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+              Discover & Celebrate
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-pink-200">
+                Extraordinary Art
+              </span>
             </h1>
-            <p className="text-xl lg:text-2xl mb-8 text-blue-100 leading-relaxed">
-              Explore bold mural work, urban graffiti, and contemporary art from artists pushing the boundaries of modern creativity.
+            <p className="text-xl text-blue-50 mb-8 leading-relaxed">
+              Connect with talented artists worldwide. Buy, sell, and collect unique artworks in the largest digital art marketplace.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link
-                href="/marketplace"
-                className="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-              >
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link href="/marketplace" className="bg-white text-blue-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-xl text-center">
                 Explore Marketplace
               </Link>
-              <Link
-                href="/login"
-                className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all duration-300"
-              >
-                Join as Artist
+              <Link href="/events" className="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-blue-600 transition-all duration-300 text-center">
+                View Events
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Currency Section */}
-      <section className="py-12 bg-white border-b">
+      {/* Stats Section */}
+      <section className="py-12 bg-white border-b border-gray-200">
         <div className="container mx-auto px-6">
-          <div className="flex justify-center items-center space-x-4">
-            <span className="text-gray-600 font-medium">Select Currency:</span>
-            <CurrencySelector />
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="text-4xl font-bold text-blue-600 mb-2">5000+</div>
+              <p className="text-gray-600">Artworks Listed</p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-purple-600 mb-2">2300+</div>
+              <p className="text-gray-600">Active Artists</p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-pink-600 mb-2">18K+</div>
+              <p className="text-gray-600">Happy Collectors</p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-green-600 mb-2">$2.5M+</div>
+              <p className="text-gray-600">Total Sales</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Featured Artworks Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Featured Artworks</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Discover unique pieces from our talented artists around the world
-            </p>
+            <p className="text-xl text-gray-600">Curated selections from our most talented artists</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {featuredArtworks.map((artwork) => (
-              <ArtworkCard key={artwork.id} artwork={artwork} />
+              <div key={artwork.id} className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                <Link href={`/marketplace/${artwork.id}`}>
+                  <div className="relative h-48 bg-gray-200 overflow-hidden group">
+                    <img src={artwork.image} alt={artwork.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+                    {artwork.is_limited && (
+                      <div className="absolute top-3 right-3 bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-bold">Limited</div>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-bold text-gray-900 mb-1 text-lg">{artwork.title}</h3>
+                    <p className="text-gray-600 text-sm mb-3">{artwork.artist_name}</p>
+                    <div className="flex justify-between items-center">
+                      <span className="text-blue-600 font-bold text-lg">${artwork.price}</span>
+                      <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">Available</span>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Link href="/marketplace" className="inline-block bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition-colors">
+              View All Artworks
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Upcoming Events Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Upcoming Events</h2>
+            <p className="text-xl text-gray-600">Don't miss out on exclusive art events and experiences</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {upcomingEvents.map((event) => (
+              <div key={event.id} className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                <div className="relative h-40 bg-gray-300">
+                  <img src={event.image} alt={event.title} className="w-full h-full object-cover" />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{event.title}</h3>
+                  <p className="text-gray-600 mb-4 text-sm">{event.description}</p>
+                  <div className="mb-4 flex items-center text-gray-600 text-sm">
+                    <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10.894 2.553a1 1 0 00-1.788 0l-2.894 5.776A1 1 0 003.118 10h6.764a1 1 0 00.948-1.671L10.894 2.553z"></path></svg>
+                    {event.location}
+                  </div>
+                  <EventCounter eventDate={event.date} eventTitle={event.title} />
+                  <Link href={`/events/${event.id}`} className="mt-4 block w-full text-center bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    Learn More
+                  </Link>
+                </div>
+              </div>
             ))}
           </div>
 
           <div className="text-center mt-12">
-            <Link
-              href="/marketplace"
-              className="inline-block bg-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              View All Artworks →
+            <Link href="/events" className="inline-block bg-purple-600 text-white px-8 py-3 rounded-full font-bold hover:bg-purple-700 transition-colors">
+              View All Events
             </Link>
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-white">
+      {/* Featured Artists Section */}
+      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="container mx-auto px-6">
-          <div className="grid gap-12 lg:grid-cols-2 items-center">
-            <div>
-              <p className="text-sm uppercase tracking-[0.3em] text-blue-600 font-semibold mb-4">Graffiti & Street Art</p>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Fuel the Urban Art Movement</h2>
-              <p className="text-lg text-gray-600 mb-6">
-                Explore street art collections, mural artists, and graffiti legends shaping cities with bold color and culture.
-              </p>
-              <div className="space-y-4">
-                <div className="flex items-start gap-4">
-                  <div className="mt-1 h-3 w-3 rounded-full bg-blue-600"></div>
-                  <p className="text-gray-600">Curated graffiti pieces from rising and established muralists.</p>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="mt-1 h-3 w-3 rounded-full bg-blue-600"></div>
-                  <p className="text-gray-600">Tools, tutorials, and street art events for creatives.</p>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="mt-1 h-3 w-3 rounded-full bg-blue-600"></div>
-                  <p className="text-gray-600">Support artists with secure checkout and global exposure.</p>
-                </div>
-              </div>
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                <Link
-                  href="/marketplace"
-                  className="inline-flex items-center justify-center bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-700 transition-all duration-300"
-                >
-                  Browse Graffiti Art
-                </Link>
-                <Link
-                  href="/graffiti"
-                  className="inline-flex items-center justify-center border border-blue-600 text-blue-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-50 transition-all duration-300"
-                >
-                  Street Art Stories
-                </Link>
-              </div>
-            </div>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Featured Artists</h2>
+            <p className="text-xl text-gray-600">Meet the talented creators behind amazing artworks</p>
+          </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="rounded-3xl bg-gradient-to-br from-pink-500 to-fuchsia-500 p-6 text-white shadow-xl">
-                <h3 className="text-2xl font-bold mb-3">Mural Culture</h3>
-                <p className="text-sm opacity-90">Dive into the artists reshaping city walls with unforgettable murals.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {featuredArtists.map((artist) => (
+              <div key={artist.id} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all overflow-hidden">
+                <div className="relative h-48 bg-gradient-to-br from-blue-400 to-purple-500"></div>
+                <div className="p-6 text-center">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{artist.name}</h3>
+                  <p className="text-blue-600 font-semibold mb-4">{artist.specialty}</p>
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="bg-blue-50 rounded-lg p-3">
+                      <div className="text-2xl font-bold text-blue-600">{artist.artworks}</div>
+                      <div className="text-xs text-gray-600">Artworks</div>
+                    </div>
+                    <div className="bg-purple-50 rounded-lg p-3">
+                      <div className="text-2xl font-bold text-purple-600">{artist.followers}+</div>
+                      <div className="text-xs text-gray-600">Followers</div>
+                    </div>
+                  </div>
+                  <Link href={`/profiles/${artist.name.toLowerCase().replace(' ', '-')}`} className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    View Profile
+                  </Link>
+                </div>
               </div>
-              <div className="rounded-3xl bg-gradient-to-br from-slate-900 to-indigo-900 p-6 text-white shadow-xl">
-                <h3 className="text-2xl font-bold mb-3">Urban Collections</h3>
-                <p className="text-sm opacity-90">Collect limited graffiti editions and original urban artworks.</p>
-              </div>
-              <div className="rounded-3xl bg-gradient-to-br from-amber-400 to-orange-500 p-6 text-slate-900 shadow-xl">
-                <h3 className="text-2xl font-bold mb-3">Artist Spotlights</h3>
-                <p className="text-sm opacity-90">Discover emerging street artists from every corner of the globe.</p>
-              </div>
-              <div className="rounded-3xl bg-gradient-to-br from-emerald-500 to-teal-500 p-6 text-white shadow-xl">
-                <h3 className="text-2xl font-bold mb-3">Live Events</h3>
-                <p className="text-sm opacity-90">Find pop-up exhibitions, street art tours, and graffiti festivals.</p>
-              </div>
-            </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link href="/profiles" className="inline-block bg-pink-600 text-white px-8 py-3 rounded-full font-bold hover:bg-pink-700 transition-colors">
+              Explore All Artists
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* About Section */}
+      {/* Categories Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-bold text-gray-900 mb-8">About ArtMarket</h2>
-            <p className="text-xl text-gray-600 mb-12 leading-relaxed">
-              ArtMarket is a premier digital art marketplace connecting talented artists with art enthusiasts worldwide.
-              We provide a platform where creativity meets opportunity, offering secure transactions and global reach
-              for both emerging and established artists.
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Explore Categories</h2>
+            <p className="text-xl text-gray-600">Find artworks by genre and style</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { name: 'Paintings', icon: '🎨', color: 'bg-red-100', textColor: 'text-red-600' },
+              { name: 'Digital Art', icon: '💻', color: 'bg-blue-100', textColor: 'text-blue-600' },
+              { name: 'Street Art', icon: '🏙️', color: 'bg-yellow-100', textColor: 'text-yellow-600' },
+              { name: 'Photography', icon: '📸', color: 'bg-purple-100', textColor: 'text-purple-600' },
+              { name: 'Sculpture', icon: '🗿', color: 'bg-gray-100', textColor: 'text-gray-600' },
+              { name: 'Graffiti', icon: '🎪', color: 'bg-pink-100', textColor: 'text-pink-600' },
+              { name: 'Animations', icon: '✨', color: 'bg-green-100', textColor: 'text-green-600' },
+              { name: 'Mixed Media', icon: '🎭', color: 'bg-indigo-100', textColor: 'text-indigo-600' }
+            ].map((category, idx) => (
+              <Link key={idx} href={`/marketplace?category=${category.name}`}>
+                <div className={`${category.color} rounded-xl p-8 text-center hover:shadow-lg transition-all transform hover:scale-105 cursor-pointer`}>
+                  <div className="text-5xl mb-4">{category.icon}</div>
+                  <h3 className={`text-xl font-bold ${category.textColor}`}>{category.name}</h3>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-909 mb-4">How It Works</h2>
+            <p className="text-xl text-gray-600">Get started in 4 simple steps</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {[
+              { number: '1', title: 'Create Account', description: 'Sign up and complete your profile as a buyer or artist', icon: '👤' },
+              { number: '2', title: 'Browse or Upload', description: 'Explore artworks or upload your creations to sell', icon: '📱' },
+              { number: '3', title: 'Transact Securely', description: 'Buy or sell with safe, secure payment processing', icon: '💳' },
+              { number: '4', title: 'Collect & Connect', description: 'Build your collection and connect with other art lovers', icon: '🎯' }
+            ].map((step, idx) => (
+              <div key={idx} className="text-center">
+                <div className="bg-gradient-to-br from-blue-600 to-purple-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <span className="text-3xl">{step.icon}</span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{step.title}</h3>
+                <p className="text-gray-600">{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-12 text-center text-white">
+            <h2 className="text-4xl font-bold mb-6">Ready to Join Our Community?</h2>
+            <p className="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
+              Whether you're a collector searching for unique pieces or an artist ready to showcase your talent, ArtMarket is your destination.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Global Community</h3>
-                <p className="text-gray-600">Artists and collectors from over 50 countries</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Secure Platform</h3>
-                <p className="text-gray-600">Bank-level security for all transactions</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Instant Delivery</h3>
-                <p className="text-gray-600">Digital artworks delivered instantly</p>
-              </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/register?type=buyer" className="bg-white text-purple-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-purple-50 transition-colors">
+                Register as Buyer
+              </Link>
+              <Link href="/register?type=artist" className="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-purple-600 transition-colors">
+                Register as Artist
+              </Link>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Cart Section */}
-      <section className="py-16 bg-blue-50">
-        <div className="container mx-auto px-6">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Your Cart</h2>
-            <p className="text-gray-600 mb-8">Ready to checkout? Your selected artworks are waiting.</p>
-            <Link
-              href="/cart"
-              className="inline-block bg-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              View Cart & Checkout
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQs Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">Frequently Asked Questions</h2>
-            <div className="space-y-6">
-              <div className="border-b border-gray-200 pb-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">How do I purchase artwork?</h3>
-                <p className="text-gray-600">Simply browse our marketplace, select your favorite pieces, and proceed to checkout. We accept various payment methods including credit cards and mobile payments.</p>
-              </div>
-              <div className="border-b border-gray-200 pb-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">What payment methods do you accept?</h3>
-                <p className="text-gray-600">We accept major credit cards, PayPal, and mobile payment solutions like M-Pesa and Airtel Money for African markets.</p>
-              </div>
-              <div className="border-b border-gray-200 pb-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">How do I become an artist on ArtMarket?</h3>
-                <p className="text-gray-600">Sign up for an artist account, submit your portfolio, and start listing your artworks. Our team reviews submissions to ensure quality.</p>
-              </div>
-              <div className="border-b border-gray-200 pb-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">What are the fees for artists?</h3>
-                <p className="text-gray-600">We charge a competitive commission on sales. There are no listing fees or subscription costs.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section className="py-20 bg-gray-900 text-white">
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-8">Get In Touch</h2>
-            <p className="text-xl text-gray-300 mb-12">
-              Have questions? We would love to hear from you.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Email Us</h3>
-                <p className="text-gray-300">support@artmarket.com</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Call Us</h3>
-                <p className="text-gray-300">+1 (555) 123-4567</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Visit Us</h3>
-                <p className="text-gray-300">123 Art Street, Creative City</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Login Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold mb-6">Join Our Community</h2>
-          <p className="text-xl mb-8 text-blue-100">
-            Sign up to start buying, selling, or collecting amazing artworks
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/login"
-              className="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              Login
-            </Link>
-            <Link
-              href="/register"
-              className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all duration-300"
-            >
-              Sign Up
-            </Link>
           </div>
         </div>
       </section>
