@@ -23,3 +23,9 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         validated_data['is_artist'] = user_type == 'artist'
         user = User.objects.create_user(**validated_data)
         return user
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'is_artist', 'bio', 'profile_picture', 'location', 'website']
+        read_only_fields = ['id', 'email', 'username']

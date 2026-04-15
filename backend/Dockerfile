@@ -6,8 +6,8 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 COPY backend/requirements.txt .
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+RUN python -m pip install --upgrade pip && \
+    python -m pip install -r requirements.txt
 
 COPY backend/ .
 
@@ -19,3 +19,4 @@ RUN mkdir -p /app/staticfiles
 EXPOSE 8000
 
 ENTRYPOINT ["/entrypoint.sh"]
+CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]

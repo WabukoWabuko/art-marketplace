@@ -1,7 +1,9 @@
 from django.contrib.auth import get_user_model
-from rest_framework import generics
-from rest_framework.permissions import AllowAny
-from .serializers import ProfileSerializer
+from rest_framework import generics, status
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from .serializers import ProfileSerializer, UserSettingsSerializer, WishlistSerializer
+from .models import UserSettings, Wishlist
 
 User = get_user_model()
 
@@ -10,3 +12,35 @@ class ProfileDetailView(generics.RetrieveAPIView):
     serializer_class = ProfileSerializer
     permission_classes = [AllowAny]
     lookup_field = 'username'
+
+class ProfileUpdateView(generics.RetrieveUpdateAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
+
+class UserSettingsView(generics.RetrieveUpdateAPIView):
+    serializer_class = UserSettingsSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        settings, created = UserSettings.objects.get_or_create(user=self.request.user)
+        return settings
+
+class WishlistListView(generics.ListCreateAPIView):
+    serializer_class = WishlistSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Wishlist.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class WishlistDetailView(generics.DestroyAPIView):
+    serializer_class = WishlistSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Wishlist.objects.filter(user=self.request.user)

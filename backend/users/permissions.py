@@ -14,4 +14,19 @@ class IsOwnerOrReadOnly(BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in ['GET', 'HEAD', 'OPTIONS']:
             return True
-        return obj.user == request.user
+
+        user = request.user
+        if not user or not user.is_authenticated:
+            return False
+
+        owner_fields = ['user', 'artist', 'author', 'organizer']
+        for field in owner_fields:
+            if hasattr(obj, field):
+                owner = getattr(obj, field)
+                if owner == user:
+                    return True
+
+        if hasattr(obj, 'order') and getattr(obj, 'order', None) is not None:
+            return obj.order.user == user
+
+        return False

@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from .models import Payment
 from .serializers import PaymentSerializer
 from orders.models import Order
+from users.permissions import IsOwnerOrReadOnly
 import requests
 import json
 import base64
@@ -24,7 +25,7 @@ class PaymentListView(generics.ListAPIView):
 class PaymentDetailView(generics.RetrieveAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsOwnerOrReadOnly]
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

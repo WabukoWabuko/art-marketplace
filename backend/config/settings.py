@@ -43,8 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Third-party apps
-    # 'jazzmin',
-    # 'social_django',
+    'jazzmin',
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
@@ -61,6 +60,14 @@ INSTALLED_APPS = [
     'profiles',
     'reviews',
 ]
+
+SOCIAL_AUTH_INSTALLED = False
+try:
+    import social_django  # noqa: F401
+    INSTALLED_APPS.insert(INSTALLED_APPS.index('rest_framework'), 'social_django')
+    SOCIAL_AUTH_INSTALLED = True
+except ModuleNotFoundError:
+    pass
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -85,7 +92,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-            ],
+            ] + ([
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
+            ] if SOCIAL_AUTH_INSTALLED else []),
         },
     },
 ]
@@ -299,8 +309,9 @@ SOCIAL_AUTH_TWITTER_KEY = os.getenv('TWITTER_OAUTH_KEY', 'your-twitter-api-key')
 SOCIAL_AUTH_TWITTER_SECRET = os.getenv('TWITTER_OAUTH_SECRET', 'your-twitter-api-secret')
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
-SOCIAL_AUTH_LOGIN_URL = '/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = os.getenv('SOCIAL_AUTH_LOGIN_REDIRECT_URL', 'http://localhost:3000/')
+SOCIAL_AUTH_LOGIN_URL = os.getenv('SOCIAL_AUTH_LOGIN_URL', 'http://localhost:3000/login/')
+LOGIN_REDIRECT_URL = SOCIAL_AUTH_LOGIN_REDIRECT_URL
 
 # Social Auth Pipeline
 SOCIAL_AUTH_PIPELINE = (
