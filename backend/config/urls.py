@@ -21,17 +21,10 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-try:
-    import social_django  # noqa: F401
-    SOCIAL_URLS = [path('auth/', include('social_django.urls', namespace='social'))]
-except ModuleNotFoundError:
-    SOCIAL_URLS = []
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-] + SOCIAL_URLS + [
     path('api/users/', include('users.urls')),
     path('api/artworks/', include('artworks.urls')),
     path('api/events/', include('events.urls')),

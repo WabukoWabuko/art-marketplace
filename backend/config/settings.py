@@ -43,13 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Third-party apps
-    'jazzmin',
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
     'cloudinary_storage',
     'cloudinary',
-    'django_daraja',
     # Local apps
     'users',
     'artworks',
@@ -60,14 +58,6 @@ INSTALLED_APPS = [
     'profiles',
     'reviews',
 ]
-
-SOCIAL_AUTH_INSTALLED = False
-try:
-    import social_django  # noqa: F401
-    INSTALLED_APPS.insert(INSTALLED_APPS.index('rest_framework'), 'social_django')
-    SOCIAL_AUTH_INSTALLED = True
-except ModuleNotFoundError:
-    pass
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -92,10 +82,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-            ] + ([
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
-            ] if SOCIAL_AUTH_INSTALLED else []),
+            ],
         },
     },
 ]
@@ -295,33 +282,7 @@ JAZZMIN_UI_TWEAKS = {
     }
 }
 
-# Social Auth settings
-AUTHENTICATION_BACKENDS = (
-    'social_core.backends.google.GoogleOAuth2',
-    'social_core.backends.twitter.TwitterOAuth2',
+# Authentication backends
+AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-)
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('GOOGLE_OAUTH2_KEY', 'your-google-client-id')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('GOOGLE_OAUTH2_SECRET', 'your-google-client-secret')
-
-SOCIAL_AUTH_TWITTER_KEY = os.getenv('TWITTER_OAUTH_KEY', 'your-twitter-api-key')
-SOCIAL_AUTH_TWITTER_SECRET = os.getenv('TWITTER_OAUTH_SECRET', 'your-twitter-api-secret')
-
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = os.getenv('SOCIAL_AUTH_LOGIN_REDIRECT_URL', 'http://localhost:3000/')
-SOCIAL_AUTH_LOGIN_URL = os.getenv('SOCIAL_AUTH_LOGIN_URL', 'http://localhost:3000/login/')
-LOGIN_REDIRECT_URL = SOCIAL_AUTH_LOGIN_REDIRECT_URL
-
-# Social Auth Pipeline
-SOCIAL_AUTH_PIPELINE = (
-    'social_core.pipeline.social_auth.social_details',
-    'social_core.pipeline.social_auth.social_uid',
-    'social_core.pipeline.social_auth.auth_allowed',
-    'social_core.pipeline.social_auth.social_user',
-    'social_core.pipeline.user.get_username',
-    'social_core.pipeline.user.create_user',
-    'social_core.pipeline.social_auth.associate_user',
-    'social_core.pipeline.social_auth.load_extra_data',
-    'social_core.pipeline.user.user_details',
-)
+]
