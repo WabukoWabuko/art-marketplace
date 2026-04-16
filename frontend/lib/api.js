@@ -51,6 +51,7 @@ export const api = {
 
   // Profiles
   getProfile: (username) => apiRequest(`/profiles/${username}/`),
+  getArtists: (params) => apiRequest(`/profiles/artists/?${new URLSearchParams(params)}`),
 
   // Reviews
   getReviews: (artworkId) => apiRequest(`/reviews/artwork/${artworkId}/`),
