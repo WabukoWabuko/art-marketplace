@@ -30,7 +30,7 @@ export default function ContactPage() {
       <section className="bg-gradient-to-r from-blue-600 to-purple-600 py-20 text-white">
         <div className="container mx-auto px-6">
           <h1 className="text-5xl font-bold mb-4">Contact Us</h1>
-          <p className="text-xl text-blue-100">We'd love to hear from you. Get in touch with our team.</p>
+          <p className="text-xl text-blue-100">We&apos;d love to hear from you. Get in touch with our team.</p>
         </div>
       </section>
 
@@ -112,7 +112,7 @@ export default function ContactPage() {
                 
                 {submitted && (
                   <div className="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
-                    Thank you for your message! We'll get back to you soon.
+                    Thank you for your message! We&apos;ll get back to you soon.
                   </div>
                 )}
 

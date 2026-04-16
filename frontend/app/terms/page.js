@@ -43,7 +43,7 @@ export default function TermsPage() {
 
           <h2 className="text-3xl font-bold text-gray-900 mb-4">7. Limitation of Liability</h2>
           <p className="text-gray-700 mb-8 leading-relaxed">
-            ArtMarket is provided on an "as is" basis. We do not warrant that the platform will be uninterrupted or error-free. We shall not be liable for any damages arising from your use of the platform.
+            ArtMarket is provided on an &quot;as is&quot; basis. We do not warrant that the platform will be uninterrupted or error-free. We shall not be liable for any damages arising from your use of the platform.
           </p>
 
           <h2 className="text-3xl font-bold text-gray-900 mb-4">8. Changes to Terms</h2>

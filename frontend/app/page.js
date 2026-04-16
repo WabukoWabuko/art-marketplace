@@ -145,7 +145,7 @@ export default function Home() {
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Upcoming Events</h2>
-            <p className="text-xl text-gray-600">Don't miss out on exclusive art events and experiences</p>
+            <p className="text-xl text-gray-600">Don&apos;t miss out on exclusive art events and experiences</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -282,7 +282,7 @@ export default function Home() {
           <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-12 text-center text-white">
             <h2 className="text-4xl font-bold mb-6">Ready to Join Our Community?</h2>
             <p className="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
-              Whether you're a collector searching for unique pieces or an artist ready to showcase your talent, ArtMarket is your destination.
+              Whether you&apos;re a collector searching for unique pieces or an artist ready to showcase your talent, ArtMarket is your destination.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/register?type=buyer" className="bg-white text-purple-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-purple-50 transition-colors">
