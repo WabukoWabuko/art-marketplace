@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { api } from '../../../lib/api'
 
 export default function AdminDashboard() {
   const [user, setUser] = useState(null)
@@ -15,20 +16,11 @@ export default function AdminDashboard() {
 
   const fetchUserProfile = useCallback(async (token) => {
     try {
-      const response = await fetch('http://localhost:8000/api/users/profile/', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      if (response.ok) {
-        const userData = await response.json()
-        setUser(userData)
+      const userData = await api.getCurrentUser()
+      setUser(userData)
 
-        if (!userData.is_staff) {
-          router.push('/')
-        }
-      } else {
-        router.push('/login')
+      if (!userData.is_staff) {
+        router.push('/')
       }
     } catch (error) {
       console.error('Error fetching user profile:', error)

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import EventCounter from '../../../components/EventCounter'
+import { api } from '../../../lib/api'
 
 export default function EventDetailPage() {
   const params = useParams()
@@ -13,13 +14,8 @@ export default function EventDetailPage() {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/events/${params.id}/`)
-        if (response.ok) {
-          const data = await response.json()
-          setEvent(data)
-        } else {
-          console.error('Failed to fetch event')
-        }
+        const data = await api.getEvent(params.id)
+        setEvent(data)
       } catch (error) {
         console.error('Error fetching event:', error)
       } finally {

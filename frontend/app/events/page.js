@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import EventCounter from '../../components/EventCounter'
+import { api } from '../../lib/api'
 
 export default function EventsPage() {
   const [events, setEvents] = useState([])
@@ -14,15 +15,14 @@ export default function EventsPage() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/events/')
-        const data = await response.json()
+        const data = await api.getEvents()
         const eventsWithDetails = data.map(event => ({
           ...event,
-          attendees: Math.floor(Math.random() * 1000) + 100, // Mock attendees
-          category: getRandomCategory(),
-          price: Math.random() > 0.5 ? 'Free' : 'From $25',
+          attendees: Math.floor(Math.random() * 1000) + 100,
+          category: event.category || getRandomCategory(),
+          price: event.price || (Math.random() > 0.5 ? 'Free' : 'From $25'),
           longDescription: event.description,
-          image: "/placeholder.jpg"
+          image: event.image || '/placeholder.jpg',
         }))
         setEvents(eventsWithDetails)
         setFilteredEvents(eventsWithDetails)

@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import EventCounter from '../components/EventCounter'
+import { api } from '../lib/api'
 
 export default function Home() {
   const [upcomingEvents, setUpcomingEvents] = useState([])
@@ -13,24 +14,14 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch upcoming events
-        const eventsResponse = await fetch('http://localhost:8000/api/events/')
-        const eventsData = await eventsResponse.json()
-        setUpcomingEvents(eventsData.slice(0, 3)) // Show first 3 events
+        const eventsData = await api.getEvents()
+        setUpcomingEvents(eventsData.slice(0, 3))
 
-        // Fetch featured artworks
-        const artworksResponse = await fetch('http://localhost:8000/api/artworks/')
-        const artworksData = await artworksResponse.json()
-        setFeaturedArtworks(artworksData.slice(0, 4)) // Show first 4 artworks
+        const artworksData = await api.getArtworks({})
+        setFeaturedArtworks(artworksData.slice(0, 4))
 
-        // Fetch featured artists (we'll need to create this endpoint)
-        // For now, use sample data
-        setFeaturedArtists([
-          { id: 1, name: "Maria Silva", specialty: "Abstract Art", followers: 2400, artworks: 45 },
-          { id: 2, name: "John Doe", specialty: "Street Art", followers: 1800, artworks: 32 },
-          { id: 3, name: "Lena Sparks", specialty: "Graffiti", followers: 3200, artworks: 58 }
-        ])
-
+        const artistsData = await api.getArtists({})
+        setFeaturedArtists(artistsData.results ? artistsData.results.slice(0, 3) : artistsData.slice(0, 3))
       } catch (error) {
         console.error('Error fetching data:', error)
       } finally {

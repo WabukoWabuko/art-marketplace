@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { api } from '../lib/api'
 import CurrencySelector from './CurrencySelector'
 
 export default function Header() {
@@ -20,20 +21,9 @@ export default function Header() {
 
     const fetchUserProfile = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/users/profile/', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-
-        if (response.ok) {
-          const profile = await response.json()
-          setUser(profile)
-          setIsLoggedIn(true)
-        } else {
-          setIsLoggedIn(false)
-          setUser(null)
-        }
+        const profile = await api.getCurrentUser()
+        setUser(profile)
+        setIsLoggedIn(true)
       } catch (error) {
         console.error('Error loading profile:', error)
         setIsLoggedIn(false)

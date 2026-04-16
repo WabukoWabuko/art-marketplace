@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
+import { api } from '../../../lib/api'
 
 export default function TutorialDetailPage() {
   const params = useParams()
@@ -12,13 +13,8 @@ export default function TutorialDetailPage() {
   useEffect(() => {
     const fetchTutorial = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/tutorials/${params.id}/`)
-        if (response.ok) {
-          const data = await response.json()
-          setTutorial(data)
-        } else {
-          console.error('Failed to fetch tutorial')
-        }
+        const data = await api.getTutorial(params.id)
+        setTutorial(data)
       } catch (error) {
         console.error('Error fetching tutorial:', error)
       } finally {
