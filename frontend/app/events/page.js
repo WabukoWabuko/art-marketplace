@@ -1,11 +1,62 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import EventCounter from '../../components/EventCounter'
 
 export default function EventsPage() {
-  const [events] = useState([
+  const [events, setEvents] = useState([])
+  const [filteredEvents, setFilteredEvents] = useState([])
+  const [searchTerm, setSearchTerm] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('All')
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/events/')
+        const data = await response.json()
+        const eventsWithDetails = data.map(event => ({
+          ...event,
+          attendees: Math.floor(Math.random() * 1000) + 100, // Mock attendees
+          category: getRandomCategory(),
+          price: Math.random() > 0.5 ? 'Free' : 'From $25',
+          longDescription: event.description,
+          image: "/placeholder.jpg"
+        }))
+        setEvents(eventsWithDetails)
+        setFilteredEvents(eventsWithDetails)
+      } catch (error) {
+        console.error('Error fetching events:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchEvents()
+  }, [])
+
+  const getRandomCategory = () => {
+    const categories = ['Exhibition', 'Workshop', 'Festival', 'Summit']
+    return categories[Math.floor(Math.random() * categories.length)]
+  }
+
+  useEffect(() => {
+    let filtered = events
+
+    if (searchTerm) {
+      filtered = filtered.filter(event =>
+        event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        event.description.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    }
+
+    if (selectedCategory !== 'All') {
+      filtered = filtered.filter(event => event.category === selectedCategory)
+    }
+
+    setFilteredEvents(filtered)
+  }, [searchTerm, selectedCategory, events])
     {
       id: 1,
       title: "Spring Art Expo 2026",

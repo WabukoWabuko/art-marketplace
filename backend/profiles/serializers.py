@@ -5,10 +5,23 @@ from .models import UserSettings, Wishlist
 User = get_user_model()
 
 class ProfileSerializer(serializers.ModelSerializer):
+    followers_count = serializers.SerializerMethodField()
+    following_count = serializers.SerializerMethodField()
+    artworks_count = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'is_artist', 'bio', 'profile_picture', 'location', 'website']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'is_artist', 'bio', 'profile_picture', 'location', 'website', 'specialty', 'followers_count', 'following_count', 'artworks_count']
         read_only_fields = ['id', 'email', 'username', 'is_artist']
+
+    def get_followers_count(self, obj):
+        return obj.followers_count
+
+    def get_following_count(self, obj):
+        return obj.following_count
+
+    def get_artworks_count(self, obj):
+        return obj.artworks_count
 
 class UserSettingsSerializer(serializers.ModelSerializer):
     class Meta:

@@ -7,6 +7,18 @@ from .models import UserSettings, Wishlist
 
 User = get_user_model()
 
+class ArtistsListView(generics.ListAPIView):
+    queryset = User.objects.filter(is_artist=True)
+    serializer_class = ProfileSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        specialty = self.request.query_params.get('specialty')
+        if specialty:
+            queryset = queryset.filter(specialty=specialty)
+        return queryset
+
 class ProfileDetailView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = ProfileSerializer

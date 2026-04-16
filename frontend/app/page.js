@@ -1,49 +1,53 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import EventCounter from '../components/EventCounter'
 
 export default function Home() {
-  const [upcomingEvents] = useState([
-    {
-      id: 1,
-      title: "Spring Art Expo 2026",
-      date: "2026-05-15T18:00:00Z",
-      description: "Join us for the largest art exhibition of the season featuring works from 100+ artists.",
-      location: "Central Art Gallery, Downtown",
-      image: "/placeholder.jpg"
-    },
-    {
-      id: 2,
-      title: "Artist Masterclass Series",
-      date: "2026-06-01T14:00:00Z",
-      description: "Learn advanced techniques from internationally renowned artists in multiple disciplines.",
-      location: "Online & In-Person Venues",
-      image: "/placeholder.jpg"
-    },
-    {
-      id: 3,
-      title: "Graffiti Street Festival",
-      date: "2026-07-20T10:00:00Z",
-      description: "Celebrate urban art culture with live demonstrations, workshops, and competitions.",
-      location: "Downtown Arts District",
-      image: "/placeholder.jpg"
+  const [upcomingEvents, setUpcomingEvents] = useState([])
+  const [featuredArtworks, setFeaturedArtworks] = useState([])
+  const [featuredArtists, setFeaturedArtists] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch upcoming events
+        const eventsResponse = await fetch('http://localhost:8000/api/events/')
+        const eventsData = await eventsResponse.json()
+        setUpcomingEvents(eventsData.slice(0, 3)) // Show first 3 events
+
+        // Fetch featured artworks
+        const artworksResponse = await fetch('http://localhost:8000/api/artworks/')
+        const artworksData = await artworksResponse.json()
+        setFeaturedArtworks(artworksData.slice(0, 4)) // Show first 4 artworks
+
+        // Fetch featured artists (we'll need to create this endpoint)
+        // For now, use sample data
+        setFeaturedArtists([
+          { id: 1, name: "Maria Silva", specialty: "Abstract Art", followers: 2400, artworks: 45 },
+          { id: 2, name: "John Doe", specialty: "Street Art", followers: 1800, artworks: 32 },
+          { id: 3, name: "Lena Sparks", specialty: "Graffiti", followers: 3200, artworks: 58 }
+        ])
+
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      } finally {
+        setLoading(false)
+      }
     }
-  ])
 
-  const featuredArtworks = [
-    { id: 1, title: "Abstract Dreams", artist_name: "Maria Silva", price: "1250.00", is_limited: true },
-    { id: 2, title: "Urban Reflections", artist_name: "John Doe", price: "890.00", is_limited: false },
-    { id: 3, title: "Graffiti Bloom", artist_name: "Lena Sparks", price: "1750.00", is_limited: true },
-    { id: 4, title: "Nature's Whisper", artist_name: "Anna Green", price: "2100.00", is_limited: true }
-  ]
+    fetchData()
+  }, [])
 
-  const featuredArtists = [
-    { id: 1, name: "Maria Silva", specialty: "Abstract Art", followers: 2400, artworks: 45 },
-    { id: 2, name: "John Doe", specialty: "Street Art", followers: 1800, artworks: 32 },
-    { id: 3, name: "Lena Sparks", specialty: "Graffiti", followers: 3200, artworks: 58 }
-  ]
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-xl">Loading...</div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen">
