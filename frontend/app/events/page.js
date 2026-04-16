@@ -149,7 +149,7 @@ export default function EventsPage() {
               </Link>
             ))}
           </div>
-        </div>
+        )}
       </section>
 
       {/* Newsletter Section */}

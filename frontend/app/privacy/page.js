@@ -41,7 +41,7 @@ export default function PrivacyPage() {
             You have the right to access, correct, or delete your personal information at any time. To exercise these rights, contact us at privacy@artmarket.com.
           </p>
 
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">7. Children&apos;s Privacy</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">7. Children's Privacy</h2>
           <p className="text-gray-700 mb-8 leading-relaxed">
             Our services are not directed to children under 13. We do not knowingly collect personal information from children. If we learn that we have collected such information, we will delete it immediately.
           </p>
