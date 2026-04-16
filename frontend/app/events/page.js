@@ -57,79 +57,6 @@ export default function EventsPage() {
 
     setFilteredEvents(filtered)
   }, [searchTerm, selectedCategory, events])
-    {
-      id: 1,
-      title: "Spring Art Expo 2026",
-      date: "2026-05-15T18:00:00Z",
-      description: "Join us for the largest art exhibition of the season featuring works from 100+ international artists.",
-      longDescription: "The Spring Art Expo is our flagship event, bringing together the best contemporary and traditional artworks. Experience live paintings, sculptures, digital installations, and graffiti art. Meet artists, participate in workshops, and network with collectors.",
-      location: "Central Art Gallery, Downtown",
-      image: "/placeholder.jpg",
-      attendees: 5250,
-      category: "Exhibition",
-      price: "Free"
-    },
-    {
-      id: 2,
-      title: "Artist Masterclass Series",
-      date: "2026-06-01T14:00:00Z",
-      description: "Learn advanced techniques from internationally renowned artists in multiple disciplines.",
-      longDescription: "This exclusive series brings world-renowned artists to share their techniques and creative processes. Perfect for aspiring artists looking to elevate their skills. Limited seats available.",
-      location: "Online & In-Person Venues",
-      image: "/placeholder.jpg",
-      attendees: 450,
-      category: "Workshop",
-      price: "From $49"
-    },
-    {
-      id: 3,
-      title: "Graffiti Street Festival",
-      date: "2026-07-20T10:00:00Z",
-      description: "Celebrate urban art culture with live demonstrations, workshops, and competitions.",
-      longDescription: "Experience urban art at its finest! Watch live graffiti artists create massive murals, compete in speed painting contests, and participate in hands-on workshops. Free for all ages.",
-      location: "Downtown Arts District",
-      image: "/placeholder.jpg",
-      attendees: 8900,
-      category: "Festival",
-      price: "Free"
-    },
-    {
-      id: 4,
-      title: "Photography Expo 2026",
-      date: "2026-08-10T15:00:00Z",
-      description: "Showcase of contemporary and classic photography featuring work from emerging and established photographers.",
-      longDescription: "Discover stunning visual narratives through the lens. Features portfolio reviews, photography competitions, and equipment exhibitions.",
-      location: "Art Center, East Wing",
-      image: "/placeholder.jpg",
-      attendees: 3200,
-      category: "Exhibition",
-      price: "$15"
-    },
-    {
-      id: 5,
-      title: "Digital Art Summit",
-      date: "2026-09-05T09:00:00Z",
-      description: "Explore cutting-edge digital art creation, NFTs, and virtual galleries with industry experts.",
-      longDescription: "Learn from leading digital artists and tech innovators. Keynote speakers, panel discussions, and hands-on sessions.",
-      location: "Tech Hub Convention Center",
-      image: "/placeholder.jpg",
-      attendees: 2100,
-      category: "Summit",
-      price: "From $75"
-    },
-    {
-      id: 6,
-      title: "Sculpture & Installation Art Fair",
-      date: "2026-10-12T11:00:00Z",
-      description: "Major outdoor event showcasing large-scale sculptures and interactive art installations.",
-      longDescription: "Experience immersive art installations in an outdoor garden setting. Perfect for collectors and art enthusiasts.",
-      location: "Grand Art Park",
-      image: "/placeholder.jpg",
-      attendees: 6400,
-      category: "Fair",
-      price: "Free"
-    }
-  ])
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -145,8 +72,18 @@ export default function EventsPage() {
       <section className="py-12 bg-white border-b border-gray-200">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-center">
-            <input type="text" placeholder="Search events..." className="flex-1 px-6 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-600" />
-            <select className="px-6 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-600">
+            <input
+              type="text"
+              placeholder="Search events..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="flex-1 px-6 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-600"
+            />
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="px-6 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-600"
+            >
               <option>All Categories</option>
               <option>Exhibition</option>
               <option>Workshop</option>
@@ -160,8 +97,17 @@ export default function EventsPage() {
       {/* Events Grid */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {events.map((event) => (
+          {loading ? (
+            <div className="flex justify-center items-center py-20">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+            </div>
+          ) : filteredEvents.length === 0 ? (
+            <div className="text-center py-20">
+              <p className="text-gray-500 text-lg">No events found matching your criteria.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredEvents.map((event) => (
               <Link key={event.id} href={`/events/${event.id}`}>
                 <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-2xl transition-all transform hover:scale-105 cursor-pointer h-full">
                   <div className="relative h-48 bg-gradient-to-br from-purple-400 to-indigo-500">
