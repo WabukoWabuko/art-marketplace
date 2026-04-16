@@ -43,16 +43,16 @@ export default function RootLayout({ children }) {
                     <li><a href="/marketplace" className="hover:text-white transition-colors">Marketplace</a></li>
                     <li><a href="/events" className="hover:text-white transition-colors">Events</a></li>
                     <li><a href="/tutorials" className="hover:text-white transition-colors">Tutorials</a></li>
-                    <li><a href="/dashboard" className="hover:text-white transition-colors">Dashboard</a></li>
+                    <li><a href="/about" className="hover:text-white transition-colors">About Us</a></li>
                   </ul>
                 </div>
                 <div>
                   <h3 className="font-semibold mb-4">Support</h3>
                   <ul className="space-y-2 text-sm text-gray-400">
-                    <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
-                    <li><a href="#" className="hover:text-white transition-colors">Contact Us</a></li>
-                    <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
-                    <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+                    <li><a href="/contact" className="hover:text-white transition-colors">Contact Us</a></li>
+                    <li><a href="/contact" className="hover:text-white transition-colors">Help Center</a></li>
+                    <li><a href="/terms" className="hover:text-white transition-colors">Terms of Service</a></li>
+                    <li><a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a></li>
                   </ul>
                 </div>
                 <div>
