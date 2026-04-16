@@ -4,6 +4,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { api } from '../../../lib/api'
 
+const BACKEND_ROOT = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/api$/, '')
+
 export default function AdminDashboard() {
   const [user, setUser] = useState(null)
   const [stats, setStats] = useState({
@@ -139,7 +141,7 @@ export default function AdminDashboard() {
           <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <a
-              href="http://localhost:8000/admin/"
+              href={`${BACKEND_ROOT}/admin/`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"

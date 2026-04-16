@@ -23,8 +23,8 @@ export default function AuthCallback() {
         }
 
         if (code) {
-          // Exchange the code for tokens
-          const response = await fetch('http://localhost:8000/auth/complete/google-oauth2/', {
+          const apiBase = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/api$/, '')
+          const response = await fetch(`${apiBase}/auth/complete/google-oauth2/`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ export default function AuthCallback() {
             {status}
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Please wait while we complete your authentication
+            Please wait while we complete your authentication.
           </p>
         </div>
       </div>
