@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import ArtworkCard from '../../components/ArtworkCard'
 import CurrencySelector from '../../components/CurrencySelector'
 import { api } from '../../lib/api'
+import DynamicBackground from '../../components/DynamicBackground'
 
 export default function Marketplace() {
   const [artworks, setArtworks] = useState([])
@@ -36,14 +37,14 @@ export default function Marketplace() {
   const categories = ['Painting', 'Sculpture', 'Digital Art', 'Photography', 'Mixed Media', 'Street Art', 'Graffiti', 'Urban Art']
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <div className="container mx-auto px-6 py-12">
+    <DynamicBackground>
+      <div className="container mx-auto px-6 py-12 min-h-screen">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+          <h1 className="text-5xl font-bold text-white mb-4">
             Art Marketplace
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-slate-300 max-w-2xl mx-auto">
             Discover unique artworks from talented artists around the world
           </p>
         </div>
@@ -155,6 +156,6 @@ export default function Marketplace() {
           </div>
         )}
       </div>
-    </div>
+    </DynamicBackground>
   )
 }

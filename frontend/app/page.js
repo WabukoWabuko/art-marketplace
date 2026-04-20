@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import EventCounter from '../components/EventCounter'
 import { api } from '../lib/api'
+import DynamicBackground from '../components/DynamicBackground'
 
 export default function Home() {
   const [upcomingEvents, setUpcomingEvents] = useState([])
@@ -34,14 +35,16 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-xl">Loading...</div>
-      </div>
+      <DynamicBackground>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+        </div>
+      </DynamicBackground>
     )
   }
 
   return (
-    <div className="min-h-screen">
+    <DynamicBackground>
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 min-h-[600px] flex items-center">
         <div className="absolute inset-0 opacity-10">
@@ -290,6 +293,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </div>
+    </DynamicBackground>
   )
 }

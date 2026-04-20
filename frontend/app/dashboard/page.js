@@ -2,49 +2,106 @@
 
 import { useEffect, useState } from 'react'
 import { api } from '../../lib/api'
+import DynamicBackground from '../../components/DynamicBackground'
 
 export default function Dashboard() {
   const [orders, setOrders] = useState([])
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    async function loadOrders() {
+    async function loadData() {
       try {
-        const data = await api.getOrders()
-        setOrders(data)
+        setLoading(true)
+        const [ordersData, userData] = await Promise.all([
+          api.getOrders().catch(() => []),
+          api.getCurrentUser().catch(() => null)
+        ])
+        setOrders(ordersData || [])
+        setUser(userData)
       } catch (e) {
-        setError(e.message)
+        setError(e.message || 'Failed to load dashboard data')
+      } finally {
+        setLoading(false)
       }
     }
-    loadOrders()
+    loadData()
   }, [])
 
-  return (
-    <main className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
-      {error && <p className="text-red-600 mb-4">Error: {error}</p>}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-xl font-semibold mb-4">My Orders</h3>
-          {orders.length === 0 ? (
-            <p className="text-gray-600">No orders yet.</p>
-          ) : (
-            <ul className="space-y-3">
-              {orders.map((order) => (
-                <li key={order.id} className="border rounded-lg p-3">
-                  <p className="font-semibold">Order #{order.id}</p>
-                  <p>{order.artwork_title} — {order.currency} {order.total_price}</p>
-                  <p className="text-sm text-gray-600">Status: {order.status}</p>
-                </li>
-              ))}
-            </ul>
-          )}
+  if (loading) {
+    return (
+      <DynamicBackground>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
         </div>
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-xl font-semibold mb-4">My Artworks</h3>
-          <p className="text-gray-600">Publish artworks and track inventory from the artist dashboard.</p>
+      </DynamicBackground>
+    )
+  }
+
+  return (
+    <DynamicBackground>
+      <div className="container mx-auto px-4 py-8 min-h-screen">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold text-white mb-2">
+              Welcome back{user?.first_name ? `, ${user.first_name}` : ''}!
+            </h1>
+            <p className="text-slate-300">Manage your art collection and orders</p>
+          </div>
+
+          {error && (
+            <div className="bg-red-500/10 border border-red-500/30 text-red-100 px-4 py-3 rounded-lg mb-6">
+              Error: {error}
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 p-6 shadow-xl">
+              <h3 className="text-2xl font-semibold text-white mb-4">My Orders</h3>
+              {orders.length === 0 ? (
+                <p className="text-slate-300">No orders yet. Start exploring our marketplace!</p>
+              ) : (
+                <div className="space-y-4">
+                  {orders.map((order) => (
+                    <div key={order.id} className="bg-white/5 rounded-lg p-4 border border-white/10">
+                      <p className="font-semibold text-white">Order #{order.id}</p>
+                      <p className="text-slate-300">{order.artwork_title} — {order.currency} {order.total_price}</p>
+                      <p className="text-sm text-slate-400">Status: {order.status}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 p-6 shadow-xl">
+              <h3 className="text-2xl font-semibold text-white mb-4">My Artworks</h3>
+              <p className="text-slate-300 mb-4">
+                {user?.is_artist
+                  ? "Publish artworks and track your inventory from the artist dashboard."
+                  : "Browse and collect amazing artworks from talented artists."
+                }
+              </p>
+              <div className="space-y-3">
+                <a
+                  href="/marketplace"
+                  className="block w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 px-4 rounded-lg font-semibold hover:scale-105 transition-transform text-center"
+                >
+                  Explore Marketplace
+                </a>
+                {user?.is_artist && (
+                  <a
+                    href="/dashboard/artworks"
+                    className="block w-full bg-white/20 text-white py-3 px-4 rounded-lg font-semibold hover:bg-white/30 transition-colors text-center"
+                  >
+                    Manage My Artworks
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </main>
+    </DynamicBackground>
   )
 }
