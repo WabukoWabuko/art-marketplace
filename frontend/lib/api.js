@@ -10,23 +10,38 @@ export async function apiRequest(endpoint, options = {}) {
     ...options,
   }
 
-  // Add auth token if available
-  const token = localStorage.getItem('access_token')
+  const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
 
   const response = await fetch(url, config)
-  if (!response.ok) {
-    throw new Error(`API request failed: ${response.statusText}`)
+  let responseData = null
+  try {
+    responseData = await response.json()
+  } catch (error) {
+    responseData = null
   }
-  return response.json()
+
+  if (!response.ok) {
+    const errorMessage =
+      responseData?.error || responseData?.detail ||
+      (typeof responseData === 'string' ? responseData : JSON.stringify(responseData)) ||
+      response.statusText
+    throw new Error(errorMessage)
+  }
+
+  if (response.status === 204) {
+    return {}
+  }
+
+  return responseData
 }
 
 export const api = {
   // Auth
-  login: (credentials) => apiRequest('/token/', { method: 'POST', body: JSON.stringify(credentials) }),
-  register: (userData) => apiRequest('/users/register/', { method: 'POST', body: JSON.stringify(userData) }),
+  login: (credentials) => apiRequest('/auth/login/', { method: 'POST', body: JSON.stringify(credentials) }),
+  register: (userData) => apiRequest('/auth/register/', { method: 'POST', body: JSON.stringify(userData) }),
 
   // Artworks
   getArtworks: (params) => apiRequest(`/artworks/?${new URLSearchParams(params)}`),
@@ -51,7 +66,7 @@ export const api = {
 
   // Profiles
   getProfile: (username) => apiRequest(`/profiles/${username}/`),
-  getCurrentUser: () => apiRequest('/users/profile/'),
+  getCurrentUser: () => apiRequest('/auth/profile/'),
   getArtists: (params) => apiRequest(`/profiles/artists/?${new URLSearchParams(params)}`),
 
   // Reviews

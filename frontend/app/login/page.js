@@ -40,8 +40,8 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.25),_transparent_35%),_radial-gradient(circle_at_bottom,_rgba(99,102,241,0.25),_transparent_35%),_linear-gradient(to_bottom,_#020617,_#111827)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-xl rounded-[2rem] border border-white/10 bg-slate-950/95 p-10 shadow-2xl shadow-slate-950/40 backdrop-blur-xl text-white">
-        <div className="mb-10 text-center">
+      <div className="w-full max-w-2xl rounded-[2rem] border border-white/10 bg-slate-950/95 p-12 shadow-2xl shadow-slate-950/40 backdrop-blur-xl text-white">
+        <div className="mb-12 text-center">
           <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[1.5rem] bg-gradient-to-br from-blue-500 to-indigo-600 shadow-[0_20px_60px_-30px_rgba(37,99,235,0.8)]">
             <span className="text-3xl font-extrabold">A</span>
           </div>

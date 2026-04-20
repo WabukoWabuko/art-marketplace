@@ -18,10 +18,10 @@ class UserRegistrationView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        
-        # Return user data with tokens
+
         refresh = RefreshToken.for_user(user)
         return Response({
+            'message': 'Registration successful',
             'user': UserSerializer(user).data,
             'access': str(refresh.access_token),
             'refresh': str(refresh),
@@ -41,14 +41,8 @@ class UserLoginView(APIView):
                 'error': 'Email and password required'
             }, status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            return Response({
-                'error': 'Invalid credentials'
-            }, status=status.HTTP_401_UNAUTHORIZED)
-
-        if not user.check_password(password):
+        user = authenticate(request, username=email, password=password)
+        if user is None:
             return Response({
                 'error': 'Invalid credentials'
             }, status=status.HTTP_401_UNAUTHORIZED)
@@ -58,9 +52,9 @@ class UserLoginView(APIView):
                 'error': 'Account is inactive'
             }, status=status.HTTP_401_UNAUTHORIZED)
 
-        # Generate tokens
         refresh = RefreshToken.for_user(user)
         return Response({
+            'message': 'Login successful',
             'user': UserSerializer(user).data,
             'access': str(refresh.access_token),
             'refresh': str(refresh),

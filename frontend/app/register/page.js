@@ -69,8 +69,8 @@ export default function Register() {
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.2),_transparent_40%),_radial-gradient(circle_at_bottom,_rgba(168,85,247,0.2),_transparent_35%),_linear-gradient(to_bottom,_#020617,_#111827)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-2xl rounded-[2rem] border border-white/10 bg-slate-950/95 p-10 shadow-2xl shadow-slate-950/40 backdrop-blur-xl text-white">
-        <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
+      <div className="w-full max-w-4xl rounded-[2rem] border border-white/10 bg-slate-950/95 p-12 shadow-2xl shadow-slate-950/40 backdrop-blur-xl text-white">
+        <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div className="space-y-4">
             <span className="inline-flex rounded-full bg-gradient-to-r from-fuchsia-500 to-indigo-500 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white/90">Vision 2030</span>
             <h1 className="text-4xl font-semibold text-white">Create a better art future.</h1>
@@ -87,8 +87,8 @@ export default function Register() {
             </div>
           </div>
 
-          <div className="rounded-[1.75rem] bg-slate-900/90 p-8 shadow-inner shadow-slate-950/20 border border-white/10">
-            <h2 className="text-2xl font-semibold text-white mb-6">Create your account</h2>
+          <div className="rounded-[1.75rem] bg-slate-900/90 p-10 shadow-inner shadow-slate-950/20 border border-white/10">
+            <h2 className="text-3xl font-semibold text-white mb-8">Create your account</h2>
             <form onSubmit={handleSubmit} className="space-y-5">
               {error && (
                 <div className="rounded-3xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-100">
