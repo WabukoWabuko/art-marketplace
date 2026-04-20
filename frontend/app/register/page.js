@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { api } from '../../lib/api'
 import DynamicBackground from '../../components/DynamicBackground'
+import { useToast } from '../../components/Toast'
 
 export default function Register() {
   const params = useSearchParams()
@@ -20,6 +21,7 @@ export default function Register() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const router = useRouter()
+  const { showSuccess, showError } = useToast()
 
   useEffect(() => {
     const type = params?.get('type')
@@ -42,7 +44,9 @@ export default function Register() {
     setSuccess('')
 
     if (formData.password !== formData.password2) {
-      setError('Passwords do not match')
+      const errorMessage = 'Passwords do not match'
+      setError(errorMessage)
+      showError(errorMessage)
       setLoading(false)
       return
     }
@@ -51,12 +55,21 @@ export default function Register() {
       const data = await api.register(formData)
       localStorage.setItem('access_token', data.access)
       localStorage.setItem('refresh_token', data.refresh)
-      setSuccess('Account created successfully! Redirecting to dashboard...')
+      // Dispatch storage event to update header
+      window.dispatchEvent(new StorageEvent('storage', {
+        key: 'access_token',
+        newValue: data.access
+      }))
+      const successMessage = 'Account created successfully! Redirecting to dashboard...'
+      setSuccess(successMessage)
+      showSuccess(successMessage)
       setTimeout(() => {
         router.push('/dashboard')
       }, 2000)
     } catch (error) {
-      setError(error.message || 'Registration failed. Please try again.')
+      const errorMessage = error.message || 'Registration failed. Please try again.'
+      setError(errorMessage)
+      showError(errorMessage)
     } finally {
       setLoading(false)
     }

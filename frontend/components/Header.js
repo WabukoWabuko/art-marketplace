@@ -14,12 +14,14 @@ export default function Header() {
   const router = useRouter()
 
   useEffect(() => {
-    const token = localStorage.getItem('access_token')
-    if (!token) {
-      return
-    }
-
     const fetchUserProfile = async () => {
+      const token = localStorage.getItem('access_token')
+      if (!token) {
+        setIsLoggedIn(false)
+        setUser(null)
+        return
+      }
+
       try {
         const profile = await api.getCurrentUser()
         setUser(profile)
@@ -28,10 +30,23 @@ export default function Header() {
         console.error('Error loading profile:', error)
         setIsLoggedIn(false)
         setUser(null)
+        // Clear invalid tokens
+        localStorage.removeItem('access_token')
+        localStorage.removeItem('refresh_token')
       }
     }
 
     fetchUserProfile()
+
+    // Listen for storage changes (login/logout)
+    const handleStorageChange = (e) => {
+      if (e.key === 'access_token') {
+        fetchUserProfile()
+      }
+    }
+
+    window.addEventListener('storage', handleStorageChange)
+    return () => window.removeEventListener('storage', handleStorageChange)
   }, [])
 
   const handleLogout = () => {

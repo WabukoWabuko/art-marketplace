@@ -5,12 +5,14 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { api } from '../../lib/api'
 import DynamicBackground from '../../components/DynamicBackground'
+import { useToast } from '../../components/Toast'
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
+  const { showSuccess, showError } = useToast()
 
   const handleChange = (e) => {
     setFormData({
@@ -31,9 +33,19 @@ export default function Login() {
       })
       localStorage.setItem('access_token', data.access)
       localStorage.setItem('refresh_token', data.refresh)
-      router.push('/dashboard')
+      // Dispatch storage event to update header
+      window.dispatchEvent(new StorageEvent('storage', {
+        key: 'access_token',
+        newValue: data.access
+      }))
+      showSuccess('Login successful! Redirecting to dashboard...')
+      setTimeout(() => {
+        router.push('/dashboard')
+      }, 1500)
     } catch (error) {
-      setError(error.message || 'Login failed. Please check your credentials.')
+      const errorMessage = error.message || 'Login failed. Please check your credentials.'
+      setError(errorMessage)
+      showError(errorMessage)
     } finally {
       setLoading(false)
     }

@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
+# Force rebuild to include new pages - updated 2026-04-20
 COPY . .
 
 RUN npm run build

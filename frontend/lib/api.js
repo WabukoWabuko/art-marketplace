@@ -11,7 +11,7 @@ export async function apiRequest(endpoint, options = {}) {
   }
 
   const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null
-  if (token) {
+  if (token && !options.skipAuth) {
     config.headers.Authorization = `Bearer ${token}`
   }
 
@@ -44,17 +44,17 @@ export const api = {
   register: (userData) => apiRequest('/auth/register/', { method: 'POST', body: JSON.stringify(userData) }),
 
   // Artworks
-  getArtworks: (params) => apiRequest(`/artworks/?${new URLSearchParams(params)}`),
-  getArtwork: (id) => apiRequest(`/artworks/${id}/`),
+  getArtworks: (params) => apiRequest(`/artworks/?${new URLSearchParams(params)}`, { skipAuth: true }),
+  getArtwork: (id) => apiRequest(`/artworks/${id}/`, { skipAuth: true }),
   createArtwork: (data) => apiRequest('/artworks/', { method: 'POST', body: JSON.stringify(data) }),
 
   // Events
-  getEvents: () => apiRequest('/events/'),
-  getEvent: (id) => apiRequest(`/events/${id}/`),
+  getEvents: () => apiRequest('/events/', { skipAuth: true }),
+  getEvent: (id) => apiRequest(`/events/${id}/`, { skipAuth: true }),
 
   // Tutorials
-  getTutorials: () => apiRequest('/tutorials/'),
-  getTutorial: (id) => apiRequest(`/tutorials/${id}/`),
+  getTutorials: () => apiRequest('/tutorials/', { skipAuth: true }),
+  getTutorial: (id) => apiRequest(`/tutorials/${id}/`, { skipAuth: true }),
 
   // Orders
   getOrders: () => apiRequest('/orders/'),
@@ -65,9 +65,12 @@ export const api = {
   convertCurrency: (params) => apiRequest(`/payments/convert/?${new URLSearchParams(params)}`),
 
   // Profiles
-  getProfile: (username) => apiRequest(`/profiles/${username}/`),
+  getProfile: (username) => apiRequest(`/profiles/${username}/`, { skipAuth: true }),
   getCurrentUser: () => apiRequest('/auth/profile/'),
-  getArtists: (params) => apiRequest(`/profiles/artists/?${new URLSearchParams(params)}`),
+  getArtists: (params) => apiRequest(`/profiles/artists/?${new URLSearchParams(params)}`, { skipAuth: true }),
+  getWishlist: () => apiRequest('/profiles/wishlist/'),
+  addToWishlist: (artworkId) => apiRequest('/profiles/wishlist/', { method: 'POST', body: JSON.stringify({ artwork: artworkId }) }),
+  removeFromWishlist: (wishlistId) => apiRequest(`/profiles/wishlist/${wishlistId}/`, { method: 'DELETE' }),
 
   // Reviews
   getReviews: (artworkId) => apiRequest(`/reviews/artwork/${artworkId}/`),
