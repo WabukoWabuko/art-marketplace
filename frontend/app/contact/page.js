@@ -112,7 +112,7 @@ export default function ContactPage() {
                 
                 {submitted && (
                   <div className="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
-                    Thank you for your message! We'll get back to you soon.
+                    Thank you for your message! We&apos;ll get back to you soon.
                   </div>
                 )}
 

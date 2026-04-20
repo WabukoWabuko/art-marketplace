@@ -40,7 +40,7 @@ export default function TutorialDetailPage() {
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Tutorial Not Found</h1>
-          <p className="text-gray-600 mb-8">The tutorial you're looking for doesn't exist.</p>
+          <p className="text-gray-600 mb-8">The tutorial you&apos;re looking for doesn&apos;t exist.</p>
           <Link
             href="/tutorials"
             className="bg-green-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-700 transition-colors"
@@ -137,9 +137,9 @@ export default function TutorialDetailPage() {
                   </p>
                 </div>
 
-                {/* What You'll Learn */}
+                {/* What You&apos;ll Learn */}
                 <div className="bg-green-50 rounded-xl p-6 mb-8">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">What You'll Learn</h3>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">What You&apos;ll Learn</h3>
                   <ul className="space-y-3">
                     <li className="flex items-start">
                       <svg className="w-5 h-5 mr-3 text-green-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
