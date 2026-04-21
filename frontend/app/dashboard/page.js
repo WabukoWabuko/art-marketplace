@@ -10,6 +10,8 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
+  const roleLabel = user?.is_artist ? 'Artist' : 'Buyer'
+
   useEffect(() => {
     async function loadData() {
       try {
@@ -102,7 +104,16 @@ export default function Dashboard() {
                     Manage My Artworks
                   </a>
                 )}
+                {user?.is_staff || user?.is_superuser ? (
+                  <a
+                    href="/admin"
+                    className="block w-full bg-green-500 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-600 transition-colors text-center"
+                  >
+                    Admin Control Panel
+                  </a>
+                ) : null}
               </div>
+              <p className="mt-4 text-sm text-slate-400">Role: {roleLabel}</p>
             </div>
           </div>
         </div>

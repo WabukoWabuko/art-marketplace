@@ -18,7 +18,12 @@ export default function WishlistPage() {
     try {
       setLoading(true)
       const wishlistData = await api.getWishlist()
-      setWishlist(wishlistData || [])
+      const normalizedWishlist = Array.isArray(wishlistData)
+        ? wishlistData
+        : Array.isArray(wishlistData?.results)
+        ? wishlistData.results
+        : []
+      setWishlist(normalizedWishlist)
     } catch (error) {
       setError('Failed to load wishlist')
     } finally {
@@ -77,10 +82,10 @@ export default function WishlistPage() {
               {wishlist.map((item) => (
                 <div key={item.id} className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 overflow-hidden shadow-xl group">
                   <div className="aspect-square bg-slate-800 relative">
-                    {item.artwork?.image ? (
+                    {item.artwork_image ? (
                       <img
-                        src={item.artwork.image}
-                        alt={item.artwork.title}
+                        src={item.artwork_image}
+                        alt={item.artwork_title || 'Wishlist artwork'}
                         className="w-full h-full object-cover"
                       />
                     ) : (
@@ -99,17 +104,17 @@ export default function WishlistPage() {
                   </div>
                   <div className="p-4">
                     <h3 className="text-white font-semibold text-lg mb-1">
-                      {item.artwork?.title || 'Untitled Artwork'}
+                      {item.artwork_title || 'Untitled Artwork'}
                     </h3>
                     <p className="text-slate-300 text-sm mb-2">
                       by {item.artwork?.artist_name || 'Unknown Artist'}
                     </p>
                     <div className="flex items-center justify-between">
                       <span className="text-white font-bold text-lg">
-                        ${item.artwork?.price || '0.00'}
+                        ${item.artwork_price ?? '0.00'} {item.artwork_currency || ''}
                       </span>
                       <Link
-                        href={`/marketplace/${item.artwork?.id}`}
+                        href={`/marketplace/${item.artwork?.id || item.artwork}`}
                         className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
                       >
                         View Details

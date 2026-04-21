@@ -11,6 +11,7 @@ export default function Home() {
   const [featuredArtworks, setFeaturedArtworks] = useState([])
   const [featuredArtists, setFeaturedArtists] = useState([])
   const [loading, setLoading] = useState(true)
+  const [fetchError, setFetchError] = useState(null)
 
   useEffect(() => {
     const normalizeArray = (data) => {
@@ -18,6 +19,19 @@ export default function Home() {
       if (Array.isArray(data?.results)) return data.results
       if (Array.isArray(data?.data)) return data.data
       return []
+    }
+
+    const getArtistDisplayName = (artist) => {
+      if (!artist) return 'Artist'
+      if (artist.first_name || artist.last_name) {
+        return `${artist.first_name || ''} ${artist.last_name || ''}`.trim() || artist.username || 'Artist'
+      }
+      return artist.username || 'Artist'
+    }
+
+    const getArtistUrl = (artist) => {
+      if (!artist) return '/profiles'
+      return `/profiles/${artist.username || artist.id}`
     }
 
     const fetchData = async () => {
@@ -32,6 +46,7 @@ export default function Home() {
         setFeaturedArtists(normalizeArray(artistsData).slice(0, 3))
       } catch (error) {
         console.error('Error fetching data:', error)
+        setFetchError('Unable to load homepage content at the moment. Please refresh or try again later.')
       } finally {
         setLoading(false)
       }
@@ -109,10 +124,16 @@ export default function Home() {
       {/* Featured Artworks Section */}
       <section className="py-20 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Featured Artworks</h2>
-            <p className="text-xl text-gray-600">Curated selections from our most talented artists</p>
-          </div>
+          {fetchError ? (
+            <div className="rounded-3xl border border-red-200 bg-red-50 p-8 text-center">
+              <p className="text-xl font-semibold text-red-700">{fetchError}</p>
+            </div>
+          ) : (
+            <>
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-bold text-gray-900 mb-4">Featured Artworks</h2>
+                <p className="text-xl text-gray-600">Curated selections from our most talented artists</p>
+              </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {featuredArtworks.map((artwork) => (
@@ -142,6 +163,8 @@ export default function Home() {
               View All Artworks
             </Link>
           </div>
+        </>
+      )}
         </div>
       </section>
 
@@ -196,19 +219,19 @@ export default function Home() {
               <div key={artist.id} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all overflow-hidden">
                 <div className="relative h-48 bg-gradient-to-br from-blue-400 to-purple-500"></div>
                 <div className="p-6 text-center">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{artist.name}</h3>
-                  <p className="text-blue-600 font-semibold mb-4">{artist.specialty}</p>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{getArtistDisplayName(artist)}</h3>
+                  <p className="text-blue-600 font-semibold mb-4">{artist.specialty || 'Contemporary Artist'}</p>
                   <div className="grid grid-cols-2 gap-4 mb-6">
                     <div className="bg-blue-50 rounded-lg p-3">
-                      <div className="text-2xl font-bold text-blue-600">{artist.artworks}</div>
+                      <div className="text-2xl font-bold text-blue-600">{artist.artworks_count ?? 0}</div>
                       <div className="text-xs text-gray-600">Artworks</div>
                     </div>
                     <div className="bg-purple-50 rounded-lg p-3">
-                      <div className="text-2xl font-bold text-purple-600">{artist.followers}+</div>
+                      <div className="text-2xl font-bold text-purple-600">{artist.followers_count ?? 0}+</div>
                       <div className="text-xs text-gray-600">Followers</div>
                     </div>
                   </div>
-                  <Link href={`/profiles/${artist.name.toLowerCase().replace(' ', '-')}`} className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                  <Link href={getArtistUrl(artist)} className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
                     View Profile
                   </Link>
                 </div>
