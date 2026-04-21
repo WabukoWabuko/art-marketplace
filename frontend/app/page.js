@@ -13,16 +13,23 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    const normalizeArray = (data) => {
+      if (Array.isArray(data)) return data
+      if (Array.isArray(data?.results)) return data.results
+      if (Array.isArray(data?.data)) return data.data
+      return []
+    }
+
     const fetchData = async () => {
       try {
         const eventsData = await api.getEvents()
-        setUpcomingEvents(eventsData.slice(0, 3))
+        setUpcomingEvents(normalizeArray(eventsData).slice(0, 3))
 
         const artworksData = await api.getArtworks({})
-        setFeaturedArtworks(artworksData.slice(0, 4))
+        setFeaturedArtworks(normalizeArray(artworksData).slice(0, 4))
 
         const artistsData = await api.getArtists({})
-        setFeaturedArtists(artistsData.results ? artistsData.results.slice(0, 3) : artistsData.slice(0, 3))
+        setFeaturedArtists(normalizeArray(artistsData).slice(0, 3))
       } catch (error) {
         console.error('Error fetching data:', error)
       } finally {

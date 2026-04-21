@@ -18,7 +18,12 @@ export default function Dashboard() {
           api.getOrders().catch(() => []),
           api.getCurrentUser().catch(() => null)
         ])
-        setOrders(ordersData || [])
+        const normalizedOrders = Array.isArray(ordersData)
+          ? ordersData
+          : Array.isArray(ordersData?.results)
+          ? ordersData.results
+          : []
+        setOrders(normalizedOrders)
         setUser(userData)
       } catch (e) {
         setError(e.message || 'Failed to load dashboard data')
