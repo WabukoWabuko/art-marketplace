@@ -89,7 +89,7 @@ export default function ProfilesPage() {
                   <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 overflow-hidden cursor-pointer h-full">
                     <div className="relative h-48 bg-gradient-to-br from-pink-400 to-purple-500">
                       <img
-                        src={artist.profile_image || "/placeholder.jpg"}
+                        src={artist.profile_image || "/placeholder.svg"}
                         alt={artist.full_name}
                         className="w-full h-full object-cover opacity-80"
                       />

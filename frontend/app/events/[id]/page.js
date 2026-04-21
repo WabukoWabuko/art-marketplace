@@ -73,7 +73,7 @@ export default function EventDetailPage() {
               {/* Event Image */}
               <div className="relative h-96 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-xl overflow-hidden">
                 <img
-                  src={event.image || "/placeholder.jpg"}
+                  src={event.image || "/placeholder.svg"}
                   alt={event.title}
                   className="w-full h-full object-cover opacity-80"
                 />

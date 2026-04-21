@@ -28,7 +28,7 @@ export default function Profile({ params }) {
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-lg shadow-md p-6 mb-8">
             <div className="flex items-center mb-6">
-              <img src={profile.profile_picture || '/placeholder-avatar.jpg'} alt={profile.username} className="w-20 h-20 rounded-full mr-6" />
+              <img src={profile.profile_picture || '/placeholder-avatar.svg'} alt={profile.username} className="w-20 h-20 rounded-full mr-6" />
               <div>
                 <h1 className="text-3xl font-bold">{profile.username}</h1>
                 <p className="text-gray-600">{profile.location || 'Artist'}</p>

@@ -8,7 +8,7 @@ const graffitiArtists = [
     name: 'Kaze One',
     location: 'Johannesburg, ZA',
     specialty: 'Large-scale murals, stencil street art',
-    profile_picture: '/placeholder-avatar.jpg',
+    profile_picture: '/placeholder-avatar.svg',
     bio: 'Kaze One blends graffiti heritage with modern expression through vibrant wall installations.',
   },
   {
@@ -16,7 +16,7 @@ const graffitiArtists = [
     name: 'Neon Mist',
     location: 'London, UK',
     specialty: 'Neon graffiti, experimental typography',
-    profile_picture: '/placeholder-avatar.jpg',
+    profile_picture: '/placeholder-avatar.svg',
     bio: 'Neon Mist pushes street art into digital textures and glowing mural compositions.',
   },
   {
@@ -24,7 +24,7 @@ const graffitiArtists = [
     name: 'Riot Bloom',
     location: 'São Paulo, BR',
     specialty: 'Urban portraits, political graffiti',
-    profile_picture: '/placeholder-avatar.jpg',
+    profile_picture: '/placeholder-avatar.svg',
     bio: 'Riot Bloom creates bold social murals that celebrate culture and ignite conversation.',
   },
 ]

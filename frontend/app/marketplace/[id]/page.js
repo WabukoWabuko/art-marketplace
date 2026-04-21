@@ -48,7 +48,7 @@ export default function ArtworkDetail({ params }) {
     <main className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
-          <img src={artwork.image || '/placeholder.jpg'} alt={artwork.title} className="w-full rounded-lg shadow-md mb-6" />
+          <img src={artwork.image || '/placeholder.svg'} alt={artwork.title} className="w-full rounded-lg shadow-md mb-6" />
           <h1 className="text-4xl font-bold mb-4">{artwork.title}</h1>
           <p className="text-gray-600 mb-2">By {artwork.artist_name}</p>
           <p className="text-2xl font-semibold mb-4">{artwork.currency} {artwork.price}</p>

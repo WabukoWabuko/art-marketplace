@@ -7,7 +7,7 @@ import { CurrencyContext } from '../lib/currencyContext'
 export default function ArtworkCard({ artwork }) {
   const [isHovered, setIsHovered] = useState(false)
   const { currency, convertPrice } = useContext(CurrencyContext)
-  const imageSrc = artwork.image || '/placeholder.jpg'
+  const imageSrc = artwork.image || '/placeholder.svg'
 
   const handlePurchase = async (artwork) => {
     // For now, just show an alert. In a real app, this would open a payment modal

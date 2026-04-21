@@ -21,16 +21,16 @@ useEffect(() => {
 const fetchEvents = async () => {
 try {
 const data = await api.getEvents()
+const rawEvents = Array.isArray(data) ? data : data?.results || []
 
-
-    const eventsWithDetails = data.map(event => ({
+    const eventsWithDetails = rawEvents.map(event => ({
       ...event,
       attendees: Math.floor(Math.random() * 1000) + 100,
       category: event.category || getRandomCategory(),
       price: event.price || (Math.random() > 0.5 ? 'Free' : 'From $25'),
       longDescription: event.description || '',
       description: event.description || '',
-      image: event.image || '/placeholder.jpg',
+      image: event.image || '/placeholder.svg',
     }))
 
     setEvents(eventsWithDetails)

@@ -73,7 +73,7 @@ export default function TutorialDetailPage() {
               <div className="lg:col-span-1">
                 <div className="relative h-64 bg-gradient-to-br from-green-400 to-teal-500 rounded-xl overflow-hidden">
                   <img
-                    src={tutorial.image || "/placeholder.jpg"}
+                    src={tutorial.image || "/placeholder.svg"}
                     alt={tutorial.title}
                     className="w-full h-full object-cover opacity-80"
                   />
@@ -206,7 +206,7 @@ export default function TutorialDetailPage() {
               {[1, 2, 3].map((i) => (
                 <div key={i} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all transform hover:scale-105">
                   <div className="relative h-48 bg-gradient-to-br from-green-400 to-teal-500">
-                    <img src="/placeholder.jpg" alt="Related Tutorial" className="w-full h-full object-cover opacity-80" />
+                    <img src="/placeholder.svg" alt="Related Tutorial" className="w-full h-full object-cover opacity-80" />
                   </div>
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-gray-900 mb-2">Advanced Techniques Tutorial</h3>
