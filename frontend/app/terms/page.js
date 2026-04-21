@@ -13,7 +13,7 @@ export default function TermsPage() {
         <div className="container mx-auto px-6 max-w-4xl prose prose-lg">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">1. Acceptance of Terms</h2>
           <p className="text-gray-700 mb-8 leading-relaxed">
-            By accessing and using the ArtMarket platform, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
+            By accessing and using the UrbanKreative platform, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
           </p>
 
           <h2 className="text-3xl font-bold text-gray-900 mb-4">2. User Accounts</h2>
@@ -23,7 +23,7 @@ export default function TermsPage() {
 
           <h2 className="text-3xl font-bold text-gray-900 mb-4">3. Artwork Authenticity</h2>
           <p className="text-gray-700 mb-8 leading-relaxed">
-            Artists guarantee that all artworks uploaded are original or properly licensed. ArtMarket reserves the right to remove any artwork that violates intellectual property rights.
+            Artists guarantee that all artworks uploaded are original or properly licensed. UrbanKreative reserves the right to remove any artwork that violates intellectual property rights.
           </p>
 
           <h2 className="text-3xl font-bold text-gray-900 mb-4">4. Payment & Refunds</h2>
@@ -33,7 +33,7 @@ export default function TermsPage() {
 
           <h2 className="text-3xl font-bold text-gray-900 mb-4">5. Commission Structure</h2>
           <p className="text-gray-700 mb-8 leading-relaxed">
-            ArtMarket charges a 15% commission on all sales made through the platform. This fee covers payment processing, marketing, and platform maintenance.
+            UrbanKreative charges a 15% commission on all sales made through the platform. This fee covers payment processing, marketing, and platform maintenance.
           </p>
 
           <h2 className="text-3xl font-bold text-gray-900 mb-4">6. Prohibited Activities</h2>
@@ -43,7 +43,7 @@ export default function TermsPage() {
 
           <h2 className="text-3xl font-bold text-gray-900 mb-4">7. Limitation of Liability</h2>
           <p className="text-gray-700 mb-8 leading-relaxed">
-            ArtMarket is provided on an &quot;as is&quot; basis. We do not warrant that the platform will be uninterrupted or error-free. We shall not be liable for any damages arising from your use of the platform.
+            UrbanKreative is provided on an &quot;as is&quot; basis. We do not warrant that the platform will be uninterrupted or error-free. We shall not be liable for any damages arising from your use of the platform.
           </p>
 
           <h2 className="text-3xl font-bold text-gray-900 mb-4">8. Changes to Terms</h2>
@@ -56,7 +56,7 @@ export default function TermsPage() {
               <strong>Last Updated:</strong> April 2026
             </p>
             <p className="text-gray-700 mt-4">
-              For questions about these terms, please contact us at <strong>legal@artmarket.com</strong>
+              For questions about these terms, please contact us at <strong>legal@urbankreative.co.ke</strong>
             </p>
           </div>
         </div>

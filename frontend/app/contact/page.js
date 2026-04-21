@@ -52,8 +52,8 @@ export default function ContactPage() {
                   </div>
                   <div className="ml-4">
                     <h3 className="text-lg font-medium text-gray-900">Email</h3>
-                    <p className="mt-2 text-gray-600">support@artmarket.com</p>
-                    <p className="text-gray-600">artists@artmarket.com</p>
+                    <p className="mt-2 text-gray-600">support@urbankreative.co.ke</p>
+                    <p className="text-gray-600">artists@urbankreative.co.ke</p>
                   </div>
                 </div>
 
@@ -211,11 +211,11 @@ export default function ContactPage() {
               },
               {
                 q: "Can I schedule a meeting with the team?",
-                a: "Yes! We offer consultations for artists and collectors. Email us at support@artmarket.com to schedule a meeting."
+                a: "Yes! We offer consultations for artists and collectors. Email us at support@urbankreative.co.ke to schedule a meeting."
               },
               {
                 q: "Do you accept partnership proposals?",
-                a: "Absolutely! We're always interested in collaboration with galleries, institutions, and brands. Contact partnerships@artmarket.com."
+                a: "Absolutely! We're always interested in collaboration with galleries, institutions, and brands. Contact partnerships@urbankreative.co.ke."
               }
             ].map((faq, idx) => (
               <div key={idx} className="bg-white rounded-lg p-6 shadow">

@@ -6,23 +6,23 @@ import ReviewList from '../../../components/ReviewList'
 import ReviewForm from '../../../components/ReviewForm'
 import SocialShareButtons from '../../../components/SocialShareButtons'
 import { CurrencyContext } from '../../../lib/currencyContext'
+import { useToast } from '../../../components/Toast'
 
 export default function ArtworkDetail({ params }) {
   const [artwork, setArtwork] = useState(null)
   const [reviews, setReviews] = useState([])
-  const [error, setError] = useState(null)
   const { currency, convertPrice, currencySymbols } = useContext(CurrencyContext)
+  const { showError } = useToast()
 
   useEffect(() => {
     async function loadArtwork() {
       try {
-        setError(null)
         const data = await api.getArtwork(params.id)
         setArtwork(data)
         const reviewData = await api.getReviews(params.id)
         setReviews(Array.isArray(reviewData) ? reviewData : reviewData?.results || [])
       } catch (e) {
-        setError(e.message)
+        showError(e.message || 'Failed to load artwork')
       }
     }
     loadArtwork()
@@ -36,10 +36,6 @@ export default function ArtworkDetail({ params }) {
     } catch (e) {
       setError(e.message)
     }
-  }
-
-  if (error) {
-    return <p className="text-red-600 p-8">Error: {error}</p>
   }
 
   if (!artwork) {

@@ -5,7 +5,7 @@ import { createContext, useState, useEffect } from 'react'
 export const CurrencyContext = createContext()
 
 export function CurrencyProvider({ children }) {
-  const [currency, setCurrency] = useState('USD')
+  const [currency, setCurrency] = useState('KES')
   const [exchangeRates, setExchangeRates] = useState({})
 
   // Currency symbols mapping

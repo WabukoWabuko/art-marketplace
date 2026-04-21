@@ -10,7 +10,6 @@ import { useToast } from '../../components/Toast'
 export default function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' })
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
   const router = useRouter()
   const { showSuccess, showError } = useToast()
 
@@ -44,7 +43,6 @@ export default function Login() {
       }, 1500)
     } catch (error) {
       const errorMessage = error.message || 'Login failed. Please check your credentials.'
-      setError(errorMessage)
       showError(errorMessage)
     } finally {
       setLoading(false)
@@ -59,17 +57,11 @@ export default function Login() {
             <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[1.5rem] bg-gradient-to-br from-blue-500 to-indigo-600">
               <span className="text-3xl font-extrabold">A</span>
             </div>
-            <h1 className="text-4xl font-semibold tracking-tight">ArtMarket Access</h1>
+            <h1 className="text-4xl font-semibold tracking-tight">UrbanKreative Access</h1>
             <p className="mt-3 text-slate-300">Fast, secure login to your artist and collector dashboard.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {error && (
-              <div className="rounded-3xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-100">
-                {error}
-              </div>
-            )}
-
             <div className="space-y-5 rounded-[1.75rem] bg-slate-900/90 p-6 shadow-inner shadow-slate-950/20 border border-white/10">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-slate-300">
@@ -83,7 +75,7 @@ export default function Login() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="you@artmarket.com"
+                  placeholder="you@urbankreative.co.ke"
                   className="mt-2 w-full rounded-[1.5rem] border border-slate-700 bg-slate-950/90 px-4 py-3 text-white outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30"
                 />
               </div>
@@ -124,7 +116,7 @@ export default function Login() {
           </form>
 
           <div className="mt-8 rounded-[1.75rem] border border-white/10 bg-slate-900/90 p-6 text-center">
-            <p className="text-sm text-slate-400">New to ArtMarket?</p>
+            <p className="text-sm text-slate-400">New to UrbanKreative?</p>
             <Link
               href="/register"
               className="mt-4 inline-flex rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-100"

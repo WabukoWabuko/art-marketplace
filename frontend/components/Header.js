@@ -62,8 +62,8 @@ export default function Header() {
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors">
-            ArtMarket
+          <Link href="/" className="text-2xl font-bold text-gray-900 hover:text-green-600 transition-colors">
+            UrbanKreative
           </Link>
 
           {/* Desktop Navigation */}

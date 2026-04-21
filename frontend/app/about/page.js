@@ -6,10 +6,10 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-purple-600 py-20 text-white">
+      <section className="bg-gradient-to-r from-green-600 to-yellow-600 py-20 text-white">
         <div className="container mx-auto px-6">
-          <h1 className="text-5xl font-bold mb-4">About ArtMarket</h1>
-          <p className="text-xl text-blue-100">Connecting artists and collectors worldwide</p>
+          <h1 className="text-5xl font-bold mb-4">About UrbanKreative</h1>
+          <p className="text-xl text-green-100">Connecting artists and collectors in Kenya</p>
         </div>
       </section>
 
@@ -19,7 +19,7 @@ export default function AboutPage() {
           <div className="prose prose-lg max-w-none">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Mission</h2>
             <p className="text-gray-700 mb-8 leading-relaxed">
-              ArtMarket is a premier digital platform dedicated to celebrating and promoting contemporary art in all its forms. Founded in 2024, we believe that art has the power to inspire, transform, and connect people across the globe. Our mission is to bridge the gap between talented artists and passionate collectors, making fine art accessible to everyone.
+              UrbanKreative is a premier digital platform dedicated to celebrating and promoting contemporary art in Kenya. Founded in 2024, we believe that art has the power to inspire, transform, and connect people across Kenya. Our mission is to bridge the gap between talented artists and passionate collectors, making Kenyan art accessible to everyone.
             </p>
 
             <h2 className="text-4xl font-bold text-gray-900 mb-6 mt-12">What We Offer</h2>

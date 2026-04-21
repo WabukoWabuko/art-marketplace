@@ -104,16 +104,6 @@ export default function Register() {
                 <h2 className="text-2xl font-semibold mb-6">Create your account</h2>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
-                  {error && (
-                    <div className="rounded-3xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-100">
-                      {error}
-                    </div>
-                  )}
-                  {success && (
-                    <div className="rounded-3xl border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm text-green-100">
-                      {success}
-                    </div>
-                  )}
 
                   <div className="grid gap-4 sm:grid-cols-2">
                     <label className="block text-sm font-medium text-slate-300">
@@ -151,7 +141,7 @@ export default function Register() {
                       value={formData.email}
                       onChange={handleChange}
                       className="mt-2 w-full rounded-[1.5rem] border border-slate-700 bg-slate-950/90 px-4 py-3 text-white outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30"
-                      placeholder="you@artmarket.com"
+                      placeholder="you@urbankreative.co.ke"
                     />
                   </label>
                   <div className="grid gap-4 sm:grid-cols-2">

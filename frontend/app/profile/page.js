@@ -3,12 +3,14 @@
 import { useState, useEffect } from 'react'
 import { api } from '../../lib/api'
 import DynamicBackground from '../../components/DynamicBackground'
+import { useToast } from '../../components/Toast'
 
 export default function ProfilePage() {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [isEditing, setIsEditing] = useState(false)
+  const { showSuccess, showError } = useToast()
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -51,12 +53,13 @@ export default function ProfilePage() {
 
   const handleSave = async () => {
     try {
-      // Note: This would need a backend endpoint to update profile
-      // For now, just show success message
+      // Update profile via API
+      const updatedUser = await api.updateProfile(formData)
+      setUser(updatedUser)
       setIsEditing(false)
-      // You could add a toast notification here
+      showSuccess('Profile updated successfully!')
     } catch (error) {
-      setError('Failed to update profile')
+      showError('Failed to update profile')
     }
   }
 

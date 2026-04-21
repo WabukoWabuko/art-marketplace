@@ -6,8 +6,8 @@ import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'ArtMarket - Discover Unique Artworks',
-  description: 'Premium art marketplace connecting artists and collectors worldwide',
+  title: 'UrbanKreative - Discover Unique Artworks',
+  description: 'Premium art marketplace connecting artists and collectors in Kenya',
 }
 
 export default function RootLayout({ children }) {
@@ -28,13 +28,13 @@ export default function RootLayout({ children }) {
               <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                   <div className="flex items-center space-x-2 mb-4">
-                    <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                      <span className="text-white font-bold">A</span>
+                    <div className="w-8 h-8 bg-gradient-to-br from-green-600 to-yellow-600 rounded-lg flex items-center justify-center">
+                      <span className="text-white font-bold">UK</span>
                     </div>
-                    <span className="text-xl font-bold">ArtMarket</span>
+                    <span className="text-xl font-bold">UrbanKreative</span>
                   </div>
                   <p className="text-gray-400 text-sm">
-                    Connecting artists and collectors worldwide through premium digital art experiences.
+                    Connecting artists and collectors in Kenya through premium digital art experiences.
                   </p>
                 </div>
                 <div>
@@ -77,7 +77,7 @@ export default function RootLayout({ children }) {
                 </div>
               </div>
               <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-                <p>&copy; 2026 ArtMarket. All rights reserved. Made with ❤️ for art lovers.</p>
+                <p>&copy; 2026 UrbanKreative. All rights reserved. Made with ❤️ for Kenyan art lovers.</p>
               </div>
             </div>
           </footer>

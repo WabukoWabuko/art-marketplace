@@ -38,7 +38,7 @@ export default function PrivacyPage() {
 
           <h2 className="text-3xl font-bold text-gray-900 mb-4">6. Your Rights</h2>
           <p className="text-gray-700 mb-8 leading-relaxed">
-            You have the right to access, correct, or delete your personal information at any time. To exercise these rights, contact us at privacy@artmarket.com.
+            You have the right to access, correct, or delete your personal information at any time. To exercise these rights, contact us at privacy@urbankreative.co.ke.
           </p>
 
           <h2 className="text-3xl font-bold text-gray-900 mb-4">7. Children&apos;s Privacy</h2>
@@ -56,7 +56,7 @@ export default function PrivacyPage() {
               <strong>Last Updated:</strong> April 2026
             </p>
             <p className="text-gray-700 mt-4">
-              For privacy questions, please contact us at <strong>privacy@artmarket.com</strong>
+              For privacy questions, please contact us at <strong>privacy@urbankreative.co.ke</strong>
             </p>
           </div>
         </div>

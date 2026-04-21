@@ -137,7 +137,7 @@ export default function ProfilesPage() {
           <div className="text-center text-white">
             <h2 className="text-4xl font-bold mb-4">Are You an Artist?</h2>
             <p className="text-xl text-pink-100 mb-8 max-w-2xl mx-auto">
-              Join thousands of artists already selling their work on ArtMarket. Reach collectors worldwide.
+              Join thousands of artists already selling their work on UrbanKreative. Reach collectors in Kenya.
             </p>
             <Link
               href="/register?type=artist"

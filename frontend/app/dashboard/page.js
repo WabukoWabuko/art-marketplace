@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { api } from '../../lib/api'
 import DynamicBackground from '../../components/DynamicBackground'
 import { CurrencyContext } from '../../lib/currencyContext'
+import { useToast } from '../../components/Toast'
 
 export default function Dashboard() {
   const [orders, setOrders] = useState([])
@@ -12,6 +13,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const { currency, convertPrice, currencySymbols } = useContext(CurrencyContext)
+  const { showError } = useToast()
 
   const roleLabel = user?.is_artist ? 'Artist' : 'Buyer'
 
@@ -31,7 +33,7 @@ export default function Dashboard() {
         setOrders(normalizedOrders)
         setUser(userData)
       } catch (e) {
-        setError(e.message || 'Failed to load dashboard data')
+        showError(e.message || 'Failed to load dashboard data')
       } finally {
         setLoading(false)
       }
@@ -59,12 +61,6 @@ export default function Dashboard() {
             </h1>
             <p className="text-slate-300">Manage your art collection and orders</p>
           </div>
-
-          {error && (
-            <div className="bg-red-500/10 border border-red-500/30 text-red-100 px-4 py-3 rounded-lg mb-6">
-              Error: {error}
-            </div>
-          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 p-6 shadow-xl">

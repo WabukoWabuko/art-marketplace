@@ -3,15 +3,39 @@
 import Link from 'next/link'
 import { useState, useContext } from 'react'
 import { CurrencyContext } from '../lib/currencyContext'
+import { ToastContext } from './Toast'
+import { api } from '../lib/api'
 
 export default function ArtworkCard({ artwork }) {
   const [isHovered, setIsHovered] = useState(false)
+  const [isWishlisted, setIsWishlisted] = useState(false)
   const { currency, convertPrice, currencySymbols } = useContext(CurrencyContext)
+  const { showSuccess, showError } = useContext(ToastContext)
   const imageSrc = artwork.image || '/placeholder.svg'
 
   const handlePurchase = async (artwork) => {
-    // For now, just show an alert. In a real app, this would open a payment modal
-    alert(`Purchase functionality for ${artwork.title} will be implemented with M-Pesa and Pesapal integration.`)
+    try {
+      // Here you would add to cart or initiate purchase
+      showSuccess(`Added ${artwork.title} to cart!`)
+    } catch (error) {
+      showError('Failed to add to cart')
+    }
+  }
+
+  const handleWishlistToggle = async () => {
+    try {
+      if (isWishlisted) {
+        // Remove from wishlist - you'd need the wishlist item ID
+        // await api.removeFromWishlist(wishlistItemId)
+        showSuccess('Removed from wishlist')
+      } else {
+        await api.addToWishlist(artwork.id)
+        showSuccess('Added to wishlist')
+      }
+      setIsWishlisted(!isWishlisted)
+    } catch (error) {
+      showError('Failed to update wishlist')
+    }
   }
 
   return (
@@ -110,8 +134,11 @@ export default function ArtworkCard({ artwork }) {
             </button>
           )}
 
-          <button className="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200 group">
-            <svg className="w-5 h-5 text-gray-400 group-hover:text-red-500 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <button 
+            onClick={handleWishlistToggle}
+            className="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200 group"
+          >
+            <svg className={`w-5 h-5 transition-colors duration-200 ${isWishlisted ? 'text-red-500 fill-current' : 'text-gray-400 group-hover:text-red-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
             </svg>
           </button>

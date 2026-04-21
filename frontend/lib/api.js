@@ -67,6 +67,7 @@ export const api = {
   // Profiles
   getProfile: (username) => apiRequest(`/profiles/${username}/`, { skipAuth: true }),
   getCurrentUser: () => apiRequest('/auth/profile/'),
+  updateProfile: (data) => apiRequest('/auth/profile/', { method: 'PATCH', body: JSON.stringify(data) }),
   getArtists: (params) => apiRequest(`/profiles/artists/?${new URLSearchParams(params)}`, { skipAuth: true }),
   getWishlist: () => apiRequest('/profiles/wishlist/'),
   addToWishlist: (artworkId) => apiRequest('/profiles/wishlist/', { method: 'POST', body: JSON.stringify({ artwork: artworkId }) }),
