@@ -91,27 +91,27 @@ export default function Dashboard() {
                 }
               </p>
               <div className="space-y-3">
-                <a
+                <Link
                   href="/marketplace"
                   className="block w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 px-4 rounded-lg font-semibold hover:scale-105 transition-transform text-center"
                 >
                   Explore Marketplace
-                </a>
+                </Link>
                 {user?.is_artist && (
-                  <a
+                  <Link
                     href="/dashboard/artworks"
                     className="block w-full bg-white/20 text-white py-3 px-4 rounded-lg font-semibold hover:bg-white/30 transition-colors text-center"
                   >
                     Manage My Artworks
-                  </a>
+                  </Link>
                 )}
                 {user?.is_staff || user?.is_superuser ? (
-                  <a
-                    href="/admin"
+                  <Link
+                    href="/admin/dashboard"
                     className="block w-full bg-green-500 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-600 transition-colors text-center"
                   >
                     Admin Control Panel
-                  </a>
+                  </Link>
                 ) : null}
               </div>
               <p className="mt-4 text-sm text-slate-400">Role: {roleLabel}</p>

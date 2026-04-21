@@ -18,7 +18,7 @@ export default function ArtworkDetail({ params }) {
         const data = await api.getArtwork(params.id)
         setArtwork(data)
         const reviewData = await api.getReviews(params.id)
-        setReviews(reviewData)
+        setReviews(Array.isArray(reviewData) ? reviewData : reviewData?.results || [])
       } catch (e) {
         setError(e.message)
       }
@@ -30,7 +30,7 @@ export default function ArtworkDetail({ params }) {
     try {
       await api.createReview({ ...reviewData, artwork: params.id })
       const updatedReviews = await api.getReviews(params.id)
-      setReviews(updatedReviews)
+      setReviews(Array.isArray(updatedReviews) ? updatedReviews : updatedReviews?.results || [])
     } catch (e) {
       setError(e.message)
     }
