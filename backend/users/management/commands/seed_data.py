@@ -14,6 +14,15 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write('Seeding initial data...')
 
+        if not User.objects.filter(username='urbankreative').exists():
+            User.objects.create_superuser(
+                username='urbankreative',
+                email='urbankreative@gmail.com',
+                password='UrbanKreative123',
+                first_name='Urban',
+                last_name='Kreative',
+            )
+
         if not User.objects.filter(username='artist1').exists():
             artist = User.objects.create_user(
                 username='artist1',

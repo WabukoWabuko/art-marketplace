@@ -10,6 +10,7 @@ import { useToast } from '../../components/Toast'
 export default function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' })
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const router = useRouter()
   const { showSuccess, showError } = useToast()
 
