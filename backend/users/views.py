@@ -1,9 +1,12 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
+from artworks.models import Artwork
+from orders.models import Order
+from reviews.models import Review
 from .serializers import UserSerializer, UserRegistrationSerializer
 
 User = get_user_model()
@@ -68,3 +71,25 @@ class UserProfileView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class AdminDashboardStatsView(APIView):
+    """Return summary stats for the admin dashboard"""
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def get(self, request):
+        data = {
+            'total_users': User.objects.count(),
+            'total_artists': User.objects.filter(is_artist=True).count(),
+            'total_staff': User.objects.filter(is_staff=True).count(),
+            'total_artworks': Artwork.objects.count(),
+            'total_orders': Order.objects.count(),
+            'total_reviews': Review.objects.count(),
+        }
+        return Response(data, status=status.HTTP_200_OK)
+
+
+class AdminUserListView(generics.ListAPIView):
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]
