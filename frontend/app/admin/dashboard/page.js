@@ -16,6 +16,8 @@ export default function AdminDashboard() {
     totalArtworks: 0,
     totalOrders: 0,
     totalReviews: 0,
+    totalRevenue: 0,
+    pendingApprovals: 0,
   })
   const [latestUsers, setLatestUsers] = useState([])
   const [loading, setLoading] = useState(true)
@@ -46,6 +48,8 @@ export default function AdminDashboard() {
         totalArtworks: data.total_artworks,
         totalOrders: data.total_orders,
         totalReviews: data.total_reviews,
+        totalRevenue: data.total_revenue || 0,
+        pendingApprovals: data.pending_approvals || 0,
       })
     } catch (error) {
       console.error('Error fetching admin stats:', error)
@@ -85,7 +89,7 @@ export default function AdminDashboard() {
       <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#082c30,_#051f45)] flex items-center justify-center text-white">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-400 mx-auto"></div>
-          <p className="mt-4 text-lg">Loading UrbanKreative admin console…</p>
+          <p className="mt-4 text-lg">Loading UrbanKreative admin consoleï¿½</p>
         </div>
       </div>
     )
@@ -129,6 +133,16 @@ export default function AdminDashboard() {
                 <p className="text-sm text-slate-400">Artworks in catalog</p>
                 <p className="mt-4 text-3xl font-bold text-white">{stats.totalArtworks.toLocaleString()}</p>
               </div>
+              <div className="rounded-[1.5rem] bg-emerald-900/40 border border-emerald-500/30 p-6">
+                <p className="text-sm text-emerald-300">Total Revenue</p>
+                <p className="mt-4 text-3xl font-bold text-emerald-100">KES {(stats.totalRevenue * 100).toLocaleString()}</p>
+                <p className="mt-2 text-xs text-emerald-300/70">From completed orders</p>
+              </div>
+              <div className="rounded-[1.5rem] bg-amber-900/40 border border-amber-500/30 p-6">
+                <p className="text-sm text-amber-300">Pending Approvals</p>
+                <p className="mt-4 text-3xl font-bold text-amber-100">{stats.pendingApprovals.toLocaleString()}</p>
+                <p className="mt-2 text-xs text-amber-300/70">Artist verification needed</p>
+              </div>
               <div className="rounded-[1.5rem] bg-slate-950/80 p-6">
                 <p className="text-sm text-slate-400">Reviews recorded</p>
                 <p className="mt-4 text-3xl font-bold text-white">{stats.totalReviews.toLocaleString()}</p>
@@ -156,6 +170,39 @@ export default function AdminDashboard() {
               </a>
             </div>
           </aside>
+        </div>
+
+        <div className="rounded-[2rem] border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-xl mb-8">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <p className="text-sm uppercase tracking-[0.35em] text-violet-300">Operations</p>
+              <h3 className="mt-3 text-2xl font-bold text-white">Order Processing & Controls</h3>
+            </div>
+            <p className="text-sm text-slate-400">Manage active orders and system flows.</p>
+          </div>
+
+          <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <a href={`${BACKEND_ROOT}/admin/orders/order/?status=pending`} target="_blank" rel="noreferrer" className="rounded-[1.5rem] bg-slate-950/80 p-6 border border-white/10 hover:border-violet-500/50 transition">
+              <p className="text-sm text-slate-400">Pending Orders</p>
+              <p className="mt-4 text-2xl font-bold text-violet-300">Quick View</p>
+              <p className="mt-2 text-xs text-slate-400">Filter and manage</p>
+            </a>
+            <a href={`${BACKEND_ROOT}/admin/payments/payment/?status=completed`} target="_blank" rel="noreferrer" className="rounded-[1.5rem] bg-slate-950/80 p-6 border border-white/10 hover:border-emerald-500/50 transition">
+              <p className="text-sm text-slate-400">Revenue Summary</p>
+              <p className="mt-4 text-2xl font-bold text-emerald-300">Completed</p>
+              <p className="mt-2 text-xs text-slate-400">Payment history</p>
+            </a>
+            <a href={`${BACKEND_ROOT}/admin/artworks/artwork/?is_approved=false`} target="_blank" rel="noreferrer" className="rounded-[1.5rem] bg-slate-950/80 p-6 border border-white/10 hover:border-amber-500/50 transition">
+              <p className="text-sm text-slate-400">Pending Artworks</p>
+              <p className="mt-4 text-2xl font-bold text-amber-300">Approve</p>
+              <p className="mt-2 text-xs text-slate-400">Review submissions</p>
+            </a>
+            <a href={`${BACKEND_ROOT}/admin/users/user/?is_artist=true`} target="_blank" rel="noreferrer" className="rounded-[1.5rem] bg-slate-950/80 p-6 border border-white/10 hover:border-sky-500/50 transition">
+              <p className="text-sm text-slate-400">Artist Management</p>
+              <p className="mt-4 text-2xl font-bold text-sky-300">Verify</p>
+              <p className="mt-2 text-xs text-slate-400">Onboard creators</p>
+            </a>
+          </div>
         </div>
 
         <div className="rounded-[2rem] border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-xl">

@@ -4,9 +4,11 @@ from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.db.models import Sum, Q
 from artworks.models import Artwork
 from orders.models import Order
 from reviews.models import Review
+from payments.models import Payment
 from .serializers import UserSerializer, UserRegistrationSerializer
 
 User = get_user_model()
@@ -78,6 +80,13 @@ class AdminDashboardStatsView(APIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
 
     def get(self, request):
+        # Calculate revenue from completed payments
+        revenue_data = Payment.objects.filter(status='completed').aggregate(total=Sum('amount'))
+        total_revenue = revenue_data['total'] or 0
+
+        # Count pending artist approvals (artists who need is_artist verification)
+        pending_approvals = User.objects.filter(is_artist=True, is_active=True).count()
+        
         data = {
             'total_users': User.objects.count(),
             'total_artists': User.objects.filter(is_artist=True).count(),
@@ -85,6 +94,8 @@ class AdminDashboardStatsView(APIView):
             'total_artworks': Artwork.objects.count(),
             'total_orders': Order.objects.count(),
             'total_reviews': Review.objects.count(),
+            'total_revenue': float(total_revenue),
+            'pending_approvals': pending_approvals,
         }
         return Response(data, status=status.HTTP_200_OK)
 
