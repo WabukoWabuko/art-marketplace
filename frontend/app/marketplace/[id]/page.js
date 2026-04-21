@@ -1,15 +1,17 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { api } from '../../../lib/api'
 import ReviewList from '../../../components/ReviewList'
 import ReviewForm from '../../../components/ReviewForm'
 import SocialShareButtons from '../../../components/SocialShareButtons'
+import { CurrencyContext } from '../../../lib/currencyContext'
 
 export default function ArtworkDetail({ params }) {
   const [artwork, setArtwork] = useState(null)
   const [reviews, setReviews] = useState([])
   const [error, setError] = useState(null)
+  const { currency, convertPrice, currencySymbols } = useContext(CurrencyContext)
 
   useEffect(() => {
     async function loadArtwork() {
@@ -51,7 +53,7 @@ export default function ArtworkDetail({ params }) {
           <img src={artwork.image || '/placeholder.svg'} alt={artwork.title} className="w-full rounded-lg shadow-md mb-6" />
           <h1 className="text-4xl font-bold mb-4">{artwork.title}</h1>
           <p className="text-gray-600 mb-2">By {artwork.artist_name}</p>
-          <p className="text-2xl font-semibold mb-4">{artwork.currency} {artwork.price}</p>
+          <p className="text-2xl font-semibold mb-4">{currencySymbols[currency] || currency} {convertPrice ? convertPrice(artwork.price, 'USD', currency) : artwork.price}</p>
           <p className="text-gray-700 mb-6">{artwork.description}</p>
           <div className="flex flex-wrap gap-4">
             <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">Add to Cart</button>

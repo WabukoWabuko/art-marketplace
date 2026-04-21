@@ -1,15 +1,17 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import Link from 'next/link'
 import { api } from '../../lib/api'
 import DynamicBackground from '../../components/DynamicBackground'
+import { CurrencyContext } from '../../lib/currencyContext'
 
 export default function Dashboard() {
   const [orders, setOrders] = useState([])
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const { currency, convertPrice, currencySymbols } = useContext(CurrencyContext)
 
   const roleLabel = user?.is_artist ? 'Artist' : 'Buyer'
 
@@ -74,7 +76,7 @@ export default function Dashboard() {
                   {orders.map((order) => (
                     <div key={order.id} className="bg-white/5 rounded-lg p-4 border border-white/10">
                       <p className="font-semibold text-white">Order #{order.id}</p>
-                      <p className="text-slate-300">{order.artwork_title} — {order.currency} {order.total_price}</p>
+                      <p className="text-slate-300">{order.artwork_title} — {currencySymbols[currency] || currency} {convertPrice ? convertPrice(order.total_price, 'USD', currency) : order.total_price}</p>
                       <p className="text-sm text-slate-400">Status: {order.status}</p>
                     </div>
                   ))}

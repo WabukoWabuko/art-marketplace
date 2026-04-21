@@ -1,10 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import EventCounter from '../components/EventCounter'
 import { api } from '../lib/api'
 import DynamicBackground from '../components/DynamicBackground'
+import { CurrencyContext } from '../lib/currencyContext'
 
 export default function Home() {
   const [upcomingEvents, setUpcomingEvents] = useState([])
@@ -12,6 +13,7 @@ export default function Home() {
   const [featuredArtists, setFeaturedArtists] = useState([])
   const [loading, setLoading] = useState(true)
   const [fetchError, setFetchError] = useState(null)
+  const { currency, convertPrice, currencySymbols } = useContext(CurrencyContext)
 
   const normalizeArray = (data) => {
     if (Array.isArray(data)) return data
@@ -149,7 +151,7 @@ export default function Home() {
                     <h3 className="font-bold text-gray-900 mb-1 text-lg">{artwork.title}</h3>
                     <p className="text-gray-600 text-sm mb-3">{artwork.artist_name}</p>
                     <div className="flex justify-between items-center">
-                      <span className="text-blue-600 font-bold text-lg">${artwork.price}</span>
+                      <span className="text-blue-600 font-bold text-lg">{currencySymbols[currency] || currency} {convertPrice ? convertPrice(artwork.price, 'USD', currency) : artwork.price}</span>
                       <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">Available</span>
                     </div>
                   </div>

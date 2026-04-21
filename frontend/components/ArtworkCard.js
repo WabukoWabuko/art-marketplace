@@ -6,7 +6,7 @@ import { CurrencyContext } from '../lib/currencyContext'
 
 export default function ArtworkCard({ artwork }) {
   const [isHovered, setIsHovered] = useState(false)
-  const { currency, convertPrice } = useContext(CurrencyContext)
+  const { currency, convertPrice, currencySymbols } = useContext(CurrencyContext)
   const imageSrc = artwork.image || '/placeholder.svg'
 
   const handlePurchase = async (artwork) => {
@@ -47,7 +47,7 @@ export default function ArtworkCard({ artwork }) {
           </div>
         ) : (
           <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-lg">
-            <span className="font-bold text-gray-900">{currency} {convertPrice ? convertPrice(artwork.price, 'USD', currency) : artwork.price}</span>
+            <span className="font-bold text-gray-900">{currencySymbols[currency] || currency} {convertPrice ? convertPrice(artwork.price, 'USD', currency) : artwork.price}</span>
           </div>
         )}
 

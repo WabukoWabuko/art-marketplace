@@ -1,14 +1,16 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import Link from 'next/link'
 import { api } from '../../lib/api'
 import DynamicBackground from '../../components/DynamicBackground'
+import { CurrencyContext } from '../../lib/currencyContext'
 
 export default function WishlistPage() {
   const [wishlist, setWishlist] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const { currency, convertPrice, currencySymbols } = useContext(CurrencyContext)
 
   useEffect(() => {
     loadWishlist()
@@ -111,7 +113,7 @@ export default function WishlistPage() {
                     </p>
                     <div className="flex items-center justify-between">
                       <span className="text-white font-bold text-lg">
-                        ${item.artwork_price ?? '0.00'} {item.artwork_currency || ''}
+                        {currencySymbols[currency] || currency} {convertPrice ? convertPrice(item.artwork_price ?? 0, 'USD', currency) : (item.artwork_price ?? '0.00')}
                       </span>
                       <Link
                         href={`/marketplace/${item.artwork?.id || item.artwork}`}
