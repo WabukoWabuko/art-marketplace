@@ -10,12 +10,19 @@ export default function Tutorials() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
+  const normalizeArray = (data) => {
+    if (Array.isArray(data)) return data
+    if (Array.isArray(data?.results)) return data.results
+    if (Array.isArray(data?.data)) return data.data
+    return []
+  }
+
   useEffect(() => {
     async function loadTutorials() {
       try {
         setLoading(true)
         const data = await api.getTutorials()
-        setTutorials(data || [])
+        setTutorials(normalizeArray(data))
       } catch (e) {
         setError(e.message || 'Failed to load tutorials')
       } finally {

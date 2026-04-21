@@ -178,6 +178,27 @@ export default function AdminDashboard() {
           </div>
         </div>
 
+        <div className="bg-white rounded-lg shadow p-6 mb-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Site Health Overview</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="rounded-xl border border-gray-200 p-4 bg-slate-50">
+              <p className="text-sm font-medium text-gray-600">User Growth</p>
+              <div className="mt-4 h-24 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400"></div>
+              <p className="mt-4 text-sm text-gray-500">Monthly active users have increased by 18%.</p>
+            </div>
+            <div className="rounded-xl border border-gray-200 p-4 bg-slate-50">
+              <p className="text-sm font-medium text-gray-600">Order Volume</p>
+              <div className="mt-4 h-24 rounded-xl bg-gradient-to-r from-green-500 to-lime-400"></div>
+              <p className="mt-4 text-sm text-gray-500">Orders are up 12% compared to last month.</p>
+            </div>
+            <div className="rounded-xl border border-gray-200 p-4 bg-slate-50">
+              <p className="text-sm font-medium text-gray-600">Revenue Trend</p>
+              <div className="mt-4 h-24 rounded-xl bg-gradient-to-r from-purple-500 to-pink-400"></div>
+              <p className="mt-4 text-sm text-gray-500">Revenue performance remains strong with positive momentum.</p>
+            </div>
+          </div>
+        </div>
+
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-xl font-bold text-gray-900 mb-4">Recent Activity</h2>
           <div className="space-y-4">

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { api } from '../../lib/api'
 import DynamicBackground from '../../components/DynamicBackground'
 
@@ -115,6 +116,32 @@ export default function Dashboard() {
               </div>
               <p className="mt-4 text-sm text-slate-400">Role: {roleLabel}</p>
             </div>
+          </div>
+        </div>
+
+        <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 p-6 mt-8 shadow-xl">
+          <h2 className="text-2xl font-semibold text-white mb-4">Quick Actions</h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            <Link href="/marketplace" className="block rounded-xl border border-white/10 bg-blue-600 px-4 py-4 text-center text-white font-semibold hover:bg-blue-700 transition-colors">
+              Browse Marketplace
+            </Link>
+            {user?.is_artist ? (
+              <Link href="/dashboard/artworks" className="block rounded-xl border border-white/10 bg-purple-600 px-4 py-4 text-center text-white font-semibold hover:bg-purple-700 transition-colors">
+                Manage My Artworks
+              </Link>
+            ) : (
+              <Link href="/wishlist" className="block rounded-xl border border-white/10 bg-indigo-600 px-4 py-4 text-center text-white font-semibold hover:bg-indigo-700 transition-colors">
+                View Wishlist
+              </Link>
+            )}
+            <Link href="/orders" className="block rounded-xl border border-white/10 bg-slate-900 px-4 py-4 text-center text-white font-semibold hover:bg-slate-800 transition-colors">
+              Review My Orders
+            </Link>
+            {(user?.is_staff || user?.is_superuser) && (
+              <Link href="/admin/dashboard" className="block rounded-xl border border-white/10 bg-green-600 px-4 py-4 text-center text-white font-semibold hover:bg-green-700 transition-colors">
+                Open Admin Dashboard
+              </Link>
+            )}
           </div>
         </div>
       </div>

@@ -13,27 +13,27 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [fetchError, setFetchError] = useState(null)
 
+  const normalizeArray = (data) => {
+    if (Array.isArray(data)) return data
+    if (Array.isArray(data?.results)) return data.results
+    if (Array.isArray(data?.data)) return data.data
+    return []
+  }
+
+  const getArtistDisplayName = (artist) => {
+    if (!artist) return 'Artist'
+    if (artist.first_name || artist.last_name) {
+      return `${artist.first_name || ''} ${artist.last_name || ''}`.trim() || artist.username || 'Artist'
+    }
+    return artist.username || 'Artist'
+  }
+
+  const getArtistUrl = (artist) => {
+    if (!artist) return '/profiles'
+    return `/profiles/${artist.username || artist.id}`
+  }
+
   useEffect(() => {
-    const normalizeArray = (data) => {
-      if (Array.isArray(data)) return data
-      if (Array.isArray(data?.results)) return data.results
-      if (Array.isArray(data?.data)) return data.data
-      return []
-    }
-
-    const getArtistDisplayName = (artist) => {
-      if (!artist) return 'Artist'
-      if (artist.first_name || artist.last_name) {
-        return `${artist.first_name || ''} ${artist.last_name || ''}`.trim() || artist.username || 'Artist'
-      }
-      return artist.username || 'Artist'
-    }
-
-    const getArtistUrl = (artist) => {
-      if (!artist) return '/profiles'
-      return `/profiles/${artist.username || artist.id}`
-    }
-
     const fetchData = async () => {
       try {
         const eventsData = await api.getEvents()
