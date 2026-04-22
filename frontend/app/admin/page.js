@@ -52,10 +52,6 @@ export default function AdminPanel() {
   const [showArtworkModal, setShowArtworkModal] = useState(false)
   const [editingUser, setEditingUser] = useState(null)
   const [editingArtwork, setEditingArtwork] = useState(null)
-  const [showUserModal, setShowUserModal] = useState(false)
-  const [showArtworkModal, setShowArtworkModal] = useState(false)
-  const [editingUser, setEditingUser] = useState(null)
-  const [editingArtwork, setEditingArtwork] = useState(null)
   const [deleteConfirm, setDeleteConfirm] = useState(null)
   const [userFormData, setUserFormData] = useState({ username: '', email: '', first_name: '', last_name: '', password: '' })
   const [artworkFormData, setArtworkFormData] = useState({ title: '', description: '', price: '', is_limited: false })
@@ -712,7 +708,7 @@ export default function AdminPanel() {
       {deleteConfirm && (
         <Modal isOpen={true} onClose={() => setDeleteConfirm(null)} title="Confirm Delete">
           <div className="space-y-4">
-            <p className="text-slate-300">Are you sure you want to delete {deleteConfirm.type === 'user' ? 'user' : 'artwork'} "<strong>{deleteConfirm.name}</strong>"? This action cannot be undone.</p>
+            <p className="text-slate-300">Are you sure you want to delete {deleteConfirm.type === 'user' ? 'user' : 'artwork'} &quot;<strong>{deleteConfirm.name}</strong>&quot;? This action cannot be undone.</p>
             <div className="flex gap-3">
               <button 
                 onClick={() => {
