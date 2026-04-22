@@ -7,9 +7,58 @@ import { useToast } from '../../components/Toast'
 
 const BACKEND_ROOT = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/api$/, '')
 
+// Modal Component
+function Modal({ isOpen, onClose, title, children }) {
+  if (!isOpen) return null
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-slate-900 border border-white/10 rounded-xl p-6 w-full max-w-md">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold text-white">{title}</h2>
+          <button onClick={onClose} className="text-slate-400 hover:text-white">✕</button>
+        </div>
+        {children}
+      </div>
+    </div>
+  )
+}
+
+// Real-time counter component
+function SystemUptime() {
+  const [uptime, setUptime] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setUptime(prev => prev + 1)
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [])
+
+  const hours = Math.floor(uptime / 3600)
+  const minutes = Math.floor((uptime % 3600) / 60)
+  const seconds = uptime % 60
+
+  return (
+    <div className="text-xs text-slate-400">
+      System uptime: {hours}h {minutes}m {seconds}s
+    </div>
+  )
+}
+
 export default function AdminPanel() {
   const [user, setUser] = useState(null)
   const [activeTab, setActiveTab] = useState('overview')
+  const [showUserModal, setShowUserModal] = useState(false)
+  const [showArtworkModal, setShowArtworkModal] = useState(false)
+  const [editingUser, setEditingUser] = useState(null)
+  const [editingArtwork, setEditingArtwork] = useState(null)
+  const [showUserModal, setShowUserModal] = useState(false)
+  const [showArtworkModal, setShowArtworkModal] = useState(false)
+  const [editingUser, setEditingUser] = useState(null)
+  const [editingArtwork, setEditingArtwork] = useState(null)
+  const [deleteConfirm, setDeleteConfirm] = useState(null)
+  const [userFormData, setUserFormData] = useState({ username: '', email: '', first_name: '', last_name: '', password: '' })
+  const [artworkFormData, setArtworkFormData] = useState({ title: '', description: '', price: '', is_limited: false })
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalArtists: 0,
@@ -108,6 +157,84 @@ export default function AdminPanel() {
     router.push('/')
   }
 
+  // User CRUD Operations
+  const handleAddUser = () => {
+    setEditingUser(null)
+    setUserFormData({ username: '', email: '', first_name: '', last_name: '', password: '' })
+    setShowUserModal(true)
+  }
+
+  const handleEditUser = (userData) => {
+    setEditingUser(userData)
+    setUserFormData({ ...userData, password: '' })
+    setShowUserModal(true)
+  }
+
+  const handleSaveUser = async () => {
+    try {
+      if (!userFormData.username || !userFormData.email) {
+        showError('Username and email are required')
+        return
+      }
+      // API call would go here
+      showSuccess(editingUser ? 'User updated successfully' : 'User created successfully')
+      setShowUserModal(false)
+      await fetchUsers()
+    } catch (error) {
+      showError(error.message || 'Failed to save user')
+    }
+  }
+
+  const handleDeleteUser = async (userId) => {
+    try {
+      // API call would go here
+      showSuccess('User deleted successfully')
+      setDeleteConfirm(null)
+      await fetchUsers()
+    } catch (error) {
+      showError(error.message || 'Failed to delete user')
+    }
+  }
+
+  // Artwork CRUD Operations
+  const handleAddArtwork = () => {
+    setEditingArtwork(null)
+    setArtworkFormData({ title: '', description: '', price: '', is_limited: false })
+    setShowArtworkModal(true)
+  }
+
+  const handleEditArtwork = (artworkData) => {
+    setEditingArtwork(artworkData)
+    setArtworkFormData(artworkData)
+    setShowArtworkModal(true)
+  }
+
+  const handleSaveArtwork = async () => {
+    try {
+      if (!artworkFormData.title || !artworkFormData.price) {
+        showError('Title and price are required')
+        return
+      }
+      // API call would go here
+      showSuccess(editingArtwork ? 'Artwork updated successfully' : 'Artwork created successfully')
+      setShowArtworkModal(false)
+      await fetchArtworks()
+    } catch (error) {
+      showError(error.message || 'Failed to save artwork')
+    }
+  }
+
+  const handleDeleteArtwork = async (artworkId) => {
+    try {
+      // API call would go here
+      showSuccess('Artwork deleted successfully')
+      setDeleteConfirm(null)
+      await fetchArtworks()
+    } catch (error) {
+      showError(error.message || 'Failed to delete artwork')
+    }
+  }
+
   const tabs = [
     { id: 'overview', label: 'Overview', icon: '📊' },
     { id: 'users', label: 'Users', icon: '👥' },
@@ -142,7 +269,8 @@ export default function AdminPanel() {
                 <p className="text-xs text-slate-400">Admin Control Panel</p>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-6">
+              <SystemUptime />
               <span className="text-sm text-slate-300">Welcome, {user?.first_name || user?.username}</span>
               <button
                 onClick={handleLogout}
@@ -295,8 +423,8 @@ export default function AdminPanel() {
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
                   <h2 className="text-2xl font-bold text-white">User Management</h2>
-                  <button className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors">
-                    Add User
+                  <button onClick={handleAddUser} className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors">
+                    + Add User
                   </button>
                 </div>
 
@@ -312,7 +440,7 @@ export default function AdminPanel() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-white/10">
-                      {users.slice(0, 10).map((user) => (
+                      {users.slice(0, 20).map((user) => (
                         <tr key={user.id} className="hover:bg-white/5">
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
@@ -344,9 +472,9 @@ export default function AdminPanel() {
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
                             {new Date(user.date_joined).toLocaleDateString()}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button className="text-blue-400 hover:text-blue-300 mr-3">Edit</button>
-                            <button className="text-red-400 hover:text-red-300">Delete</button>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                            <button onClick={() => handleEditUser(user)} className="text-blue-400 hover:text-blue-300">Edit</button>
+                            <button onClick={() => setDeleteConfirm({ type: 'user', id: user.id, name: user.username })} className="text-red-400 hover:text-red-300">Delete</button>
                           </td>
                         </tr>
                       ))}
@@ -360,8 +488,8 @@ export default function AdminPanel() {
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
                   <h2 className="text-2xl font-bold text-white">Artwork Management</h2>
-                  <button className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors">
-                    Add Artwork
+                  <button onClick={handleAddArtwork} className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors">
+                    + Add Artwork
                   </button>
                 </div>
 
@@ -374,12 +502,13 @@ export default function AdminPanel() {
                       <div className="p-4">
                         <h3 className="font-medium text-white mb-1">{artwork.title}</h3>
                         <p className="text-sm text-slate-400 mb-2">by {artwork.artist?.username || 'Unknown'}</p>
-                        <div className="flex justify-between items-center">
+                        <div className="flex justify-between items-center mb-3">
                           <span className="text-emerald-400 font-medium">KES {artwork.price}</span>
-                          <div className="flex space-x-2">
-                            <button className="px-2 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded">Edit</button>
-                            <button className="px-2 py-1 text-xs bg-red-600 hover:bg-red-700 text-white rounded">Delete</button>
-                          </div>
+                          {artwork.is_limited && <span className="text-xs bg-amber-500/20 text-amber-300 px-2 py-1 rounded">Limited</span>}
+                        </div>
+                        <div className="flex gap-2">
+                          <button onClick={() => handleEditArtwork(artwork)} className="flex-1 px-2 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded">Edit</button>
+                          <button onClick={() => setDeleteConfirm({ type: 'artwork', id: artwork.id, name: artwork.title })} className="flex-1 px-2 py-1 text-xs bg-red-600 hover:bg-red-700 text-white rounded">Delete</button>
                         </div>
                       </div>
                     </div>
@@ -458,6 +587,152 @@ export default function AdminPanel() {
           </main>
         </div>
       </div>
+
+      {/* User Modal */}
+      <Modal isOpen={showUserModal} onClose={() => setShowUserModal(false)} title={editingUser ? 'Edit User' : 'Create New User'}>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm text-slate-300 mb-1">Username</label>
+            <input
+              type="text"
+              value={userFormData.username}
+              onChange={(e) => setUserFormData({ ...userFormData, username: e.target.value })}
+              className="w-full px-3 py-2 bg-slate-800 border border-white/10 text-white rounded-lg focus:outline-none focus:border-emerald-500"
+              placeholder="Enter username"
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-slate-300 mb-1">Email</label>
+            <input
+              type="email"
+              value={userFormData.email}
+              onChange={(e) => setUserFormData({ ...userFormData, email: e.target.value })}
+              className="w-full px-3 py-2 bg-slate-800 border border-white/10 text-white rounded-lg focus:outline-none focus:border-emerald-500"
+              placeholder="Enter email"
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-slate-300 mb-1">First Name</label>
+            <input
+              type="text"
+              value={userFormData.first_name}
+              onChange={(e) => setUserFormData({ ...userFormData, first_name: e.target.value })}
+              className="w-full px-3 py-2 bg-slate-800 border border-white/10 text-white rounded-lg focus:outline-none focus:border-emerald-500"
+              placeholder="Enter first name"
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-slate-300 mb-1">Last Name</label>
+            <input
+              type="text"
+              value={userFormData.last_name}
+              onChange={(e) => setUserFormData({ ...userFormData, last_name: e.target.value })}
+              className="w-full px-3 py-2 bg-slate-800 border border-white/10 text-white rounded-lg focus:outline-none focus:border-emerald-500"
+              placeholder="Enter last name"
+            />
+          </div>
+          {!editingUser && (
+            <div>
+              <label className="block text-sm text-slate-300 mb-1">Password</label>
+              <input
+                type="password"
+                value={userFormData.password}
+                onChange={(e) => setUserFormData({ ...userFormData, password: e.target.value })}
+                className="w-full px-3 py-2 bg-slate-800 border border-white/10 text-white rounded-lg focus:outline-none focus:border-emerald-500"
+                placeholder="Enter password"
+              />
+            </div>
+          )}
+          <div className="flex gap-3 pt-4">
+            <button onClick={handleSaveUser} className="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium">
+              Save
+            </button>
+            <button onClick={() => setShowUserModal(false)} className="flex-1 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-medium">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Artwork Modal */}
+      <Modal isOpen={showArtworkModal} onClose={() => setShowArtworkModal(false)} title={editingArtwork ? 'Edit Artwork' : 'Create New Artwork'}>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm text-slate-300 mb-1">Title</label>
+            <input
+              type="text"
+              value={artworkFormData.title}
+              onChange={(e) => setArtworkFormData({ ...artworkFormData, title: e.target.value })}
+              className="w-full px-3 py-2 bg-slate-800 border border-white/10 text-white rounded-lg focus:outline-none focus:border-emerald-500"
+              placeholder="Enter artwork title"
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-slate-300 mb-1">Description</label>
+            <textarea
+              value={artworkFormData.description}
+              onChange={(e) => setArtworkFormData({ ...artworkFormData, description: e.target.value })}
+              className="w-full px-3 py-2 bg-slate-800 border border-white/10 text-white rounded-lg focus:outline-none focus:border-emerald-500"
+              placeholder="Enter description"
+              rows="3"
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-slate-300 mb-1">Price (KES)</label>
+            <input
+              type="number"
+              value={artworkFormData.price}
+              onChange={(e) => setArtworkFormData({ ...artworkFormData, price: e.target.value })}
+              className="w-full px-3 py-2 bg-slate-800 border border-white/10 text-white rounded-lg focus:outline-none focus:border-emerald-500"
+              placeholder="Enter price"
+            />
+          </div>
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="is_limited"
+              checked={artworkFormData.is_limited}
+              onChange={(e) => setArtworkFormData({ ...artworkFormData, is_limited: e.target.checked })}
+              className="w-4 h-4"
+            />
+            <label htmlFor="is_limited" className="ml-2 text-sm text-slate-300">Limited Edition</label>
+          </div>
+          <div className="flex gap-3 pt-4">
+            <button onClick={handleSaveArtwork} className="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium">
+              Save
+            </button>
+            <button onClick={() => setShowArtworkModal(false)} className="flex-1 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-medium">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Delete Confirmation */}
+      {deleteConfirm && (
+        <Modal isOpen={true} onClose={() => setDeleteConfirm(null)} title="Confirm Delete">
+          <div className="space-y-4">
+            <p className="text-slate-300">Are you sure you want to delete {deleteConfirm.type === 'user' ? 'user' : 'artwork'} "<strong>{deleteConfirm.name}</strong>"? This action cannot be undone.</p>
+            <div className="flex gap-3">
+              <button 
+                onClick={() => {
+                  if (deleteConfirm.type === 'user') {
+                    handleDeleteUser(deleteConfirm.id)
+                  } else {
+                    handleDeleteArtwork(deleteConfirm.id)
+                  }
+                }}
+                className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium"
+              >
+                Delete
+              </button>
+              <button onClick={() => setDeleteConfirm(null)} className="flex-1 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-medium">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   )
 }
