@@ -60,11 +60,20 @@ export default function Register() {
         key: 'access_token',
         newValue: data.access
       }))
-      const successMessage = 'Account created successfully! Redirecting to dashboard...'
+      
+      // Determine destination route based on user role
+      let destinationRoute = '/dashboard'
+      
+      // Check if user data is in response, otherwise assume regular user
+      if (data.user && (data.user.is_staff || data.user.is_superuser)) {
+        destinationRoute = '/admin'
+      }
+      
+      const successMessage = 'Account created successfully! Redirecting...'
       setSuccess(successMessage)
       showSuccess(successMessage)
       setTimeout(() => {
-        router.push('/dashboard')
+        router.push(destinationRoute)
       }, 2000)
     } catch (error) {
       const errorMessage = error.message || 'Registration failed. Please try again.'

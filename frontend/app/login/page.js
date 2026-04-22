@@ -38,9 +38,14 @@ export default function Login() {
         key: 'access_token',
         newValue: data.access
       }))
-      showSuccess('Login successful! Redirecting to dashboard...')
+      
+      // Check if user is admin and redirect accordingly
+      const userData = data.user
+      const destinationRoute = (userData.is_staff || userData.is_superuser) ? '/admin' : '/dashboard'
+      
+      showSuccess('Login successful! Redirecting...')
       setTimeout(() => {
-        router.push('/dashboard')
+        router.push(destinationRoute)
       }, 1500)
     } catch (error) {
       const errorMessage = error.message || 'Login failed. Please check your credentials.'
